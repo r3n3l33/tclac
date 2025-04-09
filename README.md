@@ -1,5 +1,12 @@
 Übersetzt mit ChatGPT. Ich habe es Erfolgreich mit einer TCL TAC-12CHDA eingebunden.
 
+![IMG_0778](https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545)
+
+
+
+
+
+
 Externe Komponente für Klimaanlagen von TCL und ähnlichen Modellen für Home Assistant unter Verwendung von ESPHome.
 Unterstützt werden Klimaanlagen vom Typ TAC-07CHSA und ähnliche. Leider ist es nahezu unmöglich, im Voraus genau zu sagen, ob eine bestimmte Klimaanlage kompatibel ist, da es enorme Unterschiede in der Ausstattung gibt: Selbst exakt gleiche Modellbezeichnungen können z.B. kein integriertes WLAN-Modul haben, kein Kabel mit USB-Anschluss besitzen oder auf der Steuerplatine gar keinen eingelöteten UART-Anschluss aufweisen.
 Trotzdem – mit oder ohne Löten – wurden folgende Klimaanlagen erfolgreich getestet:
