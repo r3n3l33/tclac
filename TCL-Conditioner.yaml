@@ -1,58 +1,60 @@
-
 substitutions:
-# Уникальное имя этой конфигурации, стоит использовать только латинские буквы и цифры, никаких пробелов или
-# спецсимволов, например, "tclac". Если будет несколько модулей кондиционера, то device_name надо изменить,
-# например, добавляя цифры: tclac1, tclac2, tclac3...
+# Eindeutiger Name für diese Konfiguration – verwende nur lateinische Buchstaben und Zahlen,
+# keine Leerzeichen oder Sonderzeichen, z. B. "tclac".
+# Wenn du mehrere Klimamodule hast, muss device_name entsprechend geändert werden,
+# z. B. durch Anhängen von Zahlen: tclac1, tclac2, tclac3…
   device_name: tclac
-# Человеческое имя для кондиционера, для интерфейса:
+# Menschlich lesbarer Name für das Klimagerät, angezeigt in der Benutzeroberfläche:
   humanly_name: TCL Air Conditioner
-# Настройки подключения к WiFI, данные могут храниться в файле "secret" в ESPHome, если нет- редактируем:
-# Имя точки доступа WiFI:
+# WLAN-Zugangsdaten – können alternativ in der Datei "secret" in ESPHome gespeichert sein, sonst hier bearbeiten:
+# Name des WLAN-Netzwerks:
   wifi_ssid: !secret wifi_ssid
-# Пароль точки доступа WiFI:
+# WLAN-Passwort:
   wifi_password: !secret wifi_password
-# Пароль для точки доступа для восстановления, имя точки доступа будет: "{device_name} Fallback Hotspot"
+# Passwort für den Wiederherstellungsmodus – der Hotspot heißt dann: "{device_name} Fallback Hotspot"
   recovery_pass: mKSzmBdt7DAj
-# Пароль для обновления по воздуху, генерируется один раз и потом используется всегда на автомате:
+# Passwort für OTA-Updates – wird einmal generiert und dauerhaft verwendet:
   ota_pass: 90cf525a594c8bb2cbf917bc2c2fa058
-# Ключ подключения к Home Assistant API, новый ключ можно получить здесь: https://esphome.io/components/api.html:
+# API-Schlüssel zur Verbindung mit Home Assistant – neuen Schlüssel hier generieren: https://esphome.io/components/api.html
   api_key: lmUoWsWs1oqSfJqLFsA6PisHSx4Y1G+iu7V3PDIqpXk=
-# Выводы модуля, к которым подключен UART:
+# GPIO-Pins des Moduls, an die UART angeschlossen ist:
   uart_rx: GPIO3
   uart_tx: GPIO1
-# Выводы модуля для подключения сигнальных светодиодов, для работы надо раскомментировать "leds" в "packages"
-# иначе работать не будет совсем и можно писать сюда вообще что угодною. Для тех, кто просил их удалить.
+# GPIO-Pins für Status-LEDs (Empfang/Senden). Funktionieren nur, wenn "leds" in "packages" aktiviert ist.
+# Falls du keine LEDs verwenden möchtest, kannst du hier beliebige Werte eintragen.
   receive_led: GPIO6
   transmit_led: GPIO4
 
-# Подгружаемые файлы- загружаются и обновляются автоматически из интернета, раскомментировать нужные
-# Описание опций:
-# - packages/leds.yaml - светодиоды для индикации приема/передачи, пины указываются в receive_led / transmit_led
+# Eingebundene Dateien – werden automatisch aus dem Internet geladen und aktualisiert.
+# Kommentiere die gewünschten Optionen ein.
+# Beschreibung der Optionen:
+# - packages/leds.yaml – LEDs zur Anzeige von Senden/Empfangen; Pins über receive_led / transmit_led definieren
 #
-# Выравнивать раскомментированные строки обязательно по указанной позиции!
+# Alle eingetragenen Zeilen müssen exakt auf dieser Einrückungsebene stehen – sonst kommt es zu Fehlern!
 packages:
   remote_package:
     url: https://github.com/I-am-nightingale/tclac.git
     ref: master
     files:
-    # v - равнение строк с опциями вот по этой позиции, иначе глючить будет
-      - packages/core.yaml # Ядро всего сущего
+    # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Probleme!
+      - packages/core.yaml # Das Herzstück des Ganzen
       # - packages/leds.yaml
     refresh: 30s
 
-# Выбранный модуль, прошиваемой этой прошивкой. Можно раскомментировать готовую заготовку, удалив имеющуюся:
+# Ausgewähltes Modul, das mit dieser Firmware geflasht wird.
+# Vorbereitete Konfigurationen können durch Entfernen des Kommentars verwendet werden:
 
 # ESP-01S
 esp8266:
   board: esp01_1m
 
-# Hommyn HDN/WFN-02-01, из первой статьи
+# Hommyn HDN/WFN-02-01 (aus dem ersten Artikel)
 #esp32:
 #  board: esp32-c3-devkitm-1
 #  framework:
 #    type: arduino
 
-# Светодиод статуса. Включать по желанию при наличии свободных пинов
+# Status-LED – optional aktivieren, wenn freie Pins vorhanden sind
 #status_led:
 #  pin:
 #    number: GPIO5
