@@ -1,111 +1,141 @@
-Внешний компонент кондиционеров TCL и аналогов для Home Assistant, используя ESPHome.
-Поддерживаются кондиционеры типа TAC-07CHSA и подобные. Увы, предположить точно получится подключить кондиционер или нет практически
-невозможно из-за огромного разбега в комплектациях: даже одна и та же модель, буквально буква-в-букву может, например, не иметь
-родного модуля WiFI, не иметь провода с USB разъемом или вовсе на плате управления может не быть впаян разъем UART.
-Однако, в целом, с пайкой или без, проверены следующие кондиционеры:
-- Axioma ASX09H1/ASB09H1
-- Daichi AIR20AVQ1/AIR20FV1
-- Daichi AIR25AVQS1R-1/AIR25FVS1R-1
-- Daichi AIR35AVQS1R-1/AIR35FVS1R-1
-- Daichi DA35EVQ1-1/DF35EV1-1
-- Dantex RK-12SATI/RK-12SATIE
-- TCL TAC-07CHSA/TPG-W
-- TCL TAC-09CHSA/TPG
-- TCL TAC-09CHSA/DSEI-W
-- TCL TAC-12CHSA/TPG
+Übersetzt mit ChatGPT. Ich habe es Erfolgreich mit einer TCL TAC-12CHDA eingebunden.
 
-Компоненту требуется HomeAsistant и ESPHome версии не ниже 2023.3.0 !
-____
-Это все для работы ИСКЛЮЧИТЕЛЬНО с HomeAsistant и ESPHome. Если Вас интересует другие варианты или возможность подключить кондиционер
-как-то иначе к каким-то другим системам, то мне есть что предложить:
-[Вариант для подключения через MQTT](https://github.com/pavel211/TCL-TAC-07-WiFi)
-____
-Статья по проекту находится [в моем канале на Дзене](https://dzen.ru/a/ZmdoyUNswXWnulhg)
+Externe Komponente für Klimaanlagen von TCL und ähnlichen Modellen für Home Assistant unter Verwendung von ESPHome.
+Unterstützt werden Klimaanlagen vom Typ TAC-07CHSA und ähnliche. Leider ist es nahezu unmöglich, im Voraus genau zu sagen, ob eine bestimmte Klimaanlage kompatibel ist, da es enorme Unterschiede in der Ausstattung gibt: Selbst exakt gleiche Modellbezeichnungen können z.B. kein integriertes WLAN-Modul haben, kein Kabel mit USB-Anschluss besitzen oder auf der Steuerplatine gar keinen eingelöteten UART-Anschluss aufweisen.
+Trotzdem – mit oder ohne Löten – wurden folgende Klimaanlagen erfolgreich getestet:
 
-Все работает, даже стабильно. Какие глюки видел- устранил, какие желания были- реализовал. Конечно, не все, хотелось бы еще спорткар..
-Используя компонент прямо сейчас Вы уже не рискуете душевным здоровьем, но внезапные глюки вполне могут напасть. Если вдруг такое
-случиться именно с Вами- прошу сообщить мне на Дзене, приму меры.
-Подробное описание будет постепенно появляться [в моем канале на Дзене](https://dzen.ru/a/ZmdoyUNswXWnulhg) , сюда буду выкладывать
-самое важное по мере сил.
-____
-Образец для конфигурации ESPHome в файле TCL-Conditioner.yaml , упрощенный вариант конфигурации- Sample_conf.yaml . Скачайте к себе
-и используйте в ESPHome, или просто скопируйте из него всю конфигурацию и вставьте вместо своей, однако, не забыв отредактировать
-все поля. В файле есть подсказки по каждому полю.
+Axioma ASX09H1/ASB09H1
 
-Вопрос может возникнуть с 2 моментами: платформа (чип или модуль) и подгружаемые файлы. Попробую объяснить.
+Daichi AIR20AVQ1/AIR20FV1
 
-## Настройка платформы
-Платформа настраивается точно так же, как ей и полагается настраиваться в ESPHome. Например, так выглядит кусок кода для ESP-01S:
-```yaml
+Daichi AIR25AVQS1R-1/AIR25FVS1R-1
+
+Daichi AIR35AVQS1R-1/AIR35FVS1R-1
+
+Daichi DA35EVQ1-1/DF35EV1-1
+
+Dantex RK-12SATI/RK-12SATIE
+
+TCL TAC-07CHSA/TPG-W
+
+TCL TAC-09CHSA/TPG
+
+TCL TAC-09CHSA/DSEI-W
+
+TCL TAC-12CHSA/TPG
+
+Die Komponente erfordert Home Assistant und ESPHome in der Version mindestens 2023.3.0!
+
+Diese Lösung funktioniert AUSSCHLIESSLICH mit Home Assistant und ESPHome. Falls du an anderen Varianten oder Systemen interessiert bist, habe ich auch dazu etwas:
+Alternative MQTT-Anbindung
+
+Einen Artikel zum Projekt findest du auf meinem Kanal bei Dzen
+
+Das Ganze funktioniert – sogar stabil. Bugs, die ich gefunden habe, sind behoben, Wünsche, die geäußert wurden, größtenteils umgesetzt. Natürlich nicht alle – ein Sportwagen fehlt leider noch...
+Wenn du diese Komponente nutzt, riskierst du keine geistige Gesundheit mehr, aber spontane Glitches könnten trotzdem passieren. Wenn dir so etwas passiert – bitte melde dich bei mir auf Dzen, ich kümmere mich drum.
+Eine ausführlichere Beschreibung wird nach und nach auf meinem Dzen-Kanal veröffentlicht – die wichtigsten Infos stelle ich auch hier ein.
+
+Ein Beispiel für die ESPHome-Konfiguration findest du in der Datei TCL-Conditioner.yaml, eine vereinfachte Version in Sample_conf.yaml. Lade sie dir herunter und nutze sie in ESPHome – oder kopiere den Inhalt und ersetze deine Konfiguration damit. Aber denk dran, alle Felder anzupassen! In der Datei findest du Hinweise zu jedem Feld.
+
+Es können zwei Fragen auftauchen: Plattform (also Chip/Modul) und eingebundene Dateien. Ich erkläre beide kurz.
+
+Plattform-Konfiguration
+Die Plattform wird genau so konfiguriert, wie es in ESPHome üblich ist. Hier ein Beispiel für den ESP-01S:
+
+yaml
+Kopieren
+Bearbeiten
 esp8266:
   board: esp01_1m
-```
-А вот так выглядит кусок кода для модуля Hommyn HDN/WFN-02-01 из первой статьи про кондиционер:
-```yaml
+Und so sieht es für das Hommyn-Modul HDN/WFN-02-01 aus dem ersten Artikel aus:
+
+yaml
+Kopieren
+Bearbeiten
 esp32:
   board: esp32-c3-devkitm-1
   framework:
     type: arduino
-```
-Можно подключать платформу и через основной конфиг. Вот, предложенный [испытателем альфа-версии](https://github.com/kai-zer-ru), пример для Esp32 WROOM32:
-```yaml
+Die Plattform kann auch über den Haupt-Config-Block eingebunden werden. Ein Beispiel von einem Alpha-Tester für ESP32 WROOM32:
+
+yaml
+Kopieren
+Bearbeiten
 esphome:
   platform: ESP32
   board: nodemcu-32s
-```
-А это уже пример для wemos D1 Mini nodemcu esp12f:
-```yaml
+Und hier ein Beispiel für den Wemos D1 Mini (ESP12F):
+
+yaml
+Kopieren
+Bearbeiten
 esphome:
   platform: ESP8266
   board: esp12e
-```
-В общем- все то же самое, как и обычно, вариант под свою платформу легко ищется в интернете.
+Im Grunde ist alles wie gewohnt – die passende Plattform findest du leicht online.
 
-**!Важно не забыть закомментировать или удалить строки других платформ!**
+Wichtig: Entferne oder kommentiere die Zeilen für andere Plattformen aus, sonst gibt’s Probleme!
 
-## Настройка подгружаемых файлов
-Для добавления или удаления определенных частей конфига я решил использовать подгружаемые файлы- они загружаются ESPHome автоматически,
-если у сервера с Home Assistant есть доступ в интернет. Такой подход позволяет редактировать и обновлять не весь конфиг куском,
-а частями, не трогая то, что работает.
-Еще один плюс- не нужно километровые куски кода комментировать или раскомментировать, не нужно знать разметку, нет необходимости считать
-проклятые пробелы и прочее. Все делается добавлением или удалением ссылок на файлы. Итак, вот так выглядит блок подгружаемых файлов:
-```yaml
+Einbindung externer Dateien
+Zum Hinzufügen oder Entfernen bestimmter Teile der Konfiguration habe ich mich für eingebundene Dateien entschieden – ESPHome lädt sie automatisch herunter, wenn der Home Assistant-Server mit dem Internet verbunden ist.
+Das hat den Vorteil, dass nicht immer die komplette Konfig bearbeitet werden muss – nur einzelne Teile können ausgetauscht werden, ohne funktionierende Abschnitte zu stören.
+Ein weiterer Vorteil: Kein lästiges Kommentieren oder Entkommentieren von ellenlangen Codeblöcken, keine YAML-Formatierungsschmerzen, keine Sorgen wegen Leerzeichen etc. Einfach Links zu Dateien einfügen oder entfernen.
+So sieht der Block für eingebundene Dateien aus:
+
+yaml
+Kopieren
+Bearbeiten
 packages:
   remote_package:
     url: https://github.com/I-am-nightingale/tclac.git
     ref: master
     files:
-    # v - равнение строк с опциями вот по этой позиции, иначе глючить будет
-      - packages/core.yaml # Ядро всего сущего
+    # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Fehler!
+      - packages/core.yaml # Das Herzstück
       # - packages/leds.yaml
     refresh: 30s
-```
-Все подгружаемые файлы указываются в секции **files:**. Для работы необходимо, чтобы был хотя-бы
-```yaml
-- packages/core.yaml # Ядро всего сущего
-```
-Все остальные модули по желанию (их описание в том же файле чуть выше). **Важно**, чтобы все строки с файлами были выровнены по
-импровизированной метке, которую я специально указал, иначе у ESPHome возникнет много вопросов к Вам. Например, **должно быть так:**
-```yaml
+Alle eingebundenen Dateien stehen unter dem Abschnitt files:. Für den Betrieb ist mindestens die folgende Datei notwendig:
+
+yaml
+Kopieren
+Bearbeiten
+- packages/core.yaml # Das Herzstück
+Alle weiteren Module sind optional (deren Beschreibung findest du im selben Verzeichnis).
+Wichtig: Alle Dateizeilen müssen an der gleichen Position wie die Markierung ausgerichtet sein – sonst stellt ESPHome viele unangenehme Fragen.
+So ist es korrekt:
+
+yaml
+Kopieren
+Bearbeiten
 packages:
   remote_package:
     url: https://github.com/I-am-nightingale/tclac.git
     ref: master
     files:
-    # v - равнение строк с опциями вот по этой позиции, иначе глючить будет
-      - packages/core.yaml # Ядро всего сущего
+    # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Fehler!
+      - packages/core.yaml # Das Herzstück
       - packages/leds.yaml
     refresh: 30s
-```
-А вот так уже **не правильно:**
-```yaml
+So ist es falsch:
+
+yaml
+Kopieren
+Bearbeiten
 packages:
   remote_package:
     url: https://github.com/I-am-nightingale/tclac.git
     ref: master
     files:
-    # v - равнение строк с опциями вот по этой позиции, иначе глючить будет
-      - packages/core.yaml # Ядро всего сущего
+    # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Fehler!
+      - packages/core.yaml # Das Herzstück
         - packages/leds.yaml
     refresh: 30s
-```
+Wenn du willst, kann ich auch gleich die README.md im Repo für dich anlegen oder übersetzen. Sag einfach Bescheid!
+
+
+
+
+
+
+
+
