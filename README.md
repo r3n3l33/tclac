@@ -24,8 +24,10 @@
 ### 🔍 Beispielbilder
 (Beachte, dass ich hier nicht auf die Farben der Kabel geachtet habe, jedoch sollten die Farben oben für die gängigen USB-A Kabel passen, welche man einfach abschneidet.
 
-[![](https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545)](https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545)
 
+
+<img src="https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545" width="400"/>
+<br/>
 
 
 ![Wiring Example 1](https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545)  
