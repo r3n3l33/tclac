@@ -97,7 +97,7 @@ Du kannst die Konfiguration modular laden:
 ```yaml
 packages:
   remote_package:
-    url: https://github.com/I-am-nightingale/tclac.git
+    url: https://github.com/sorz2122/tclac.git
     ref: master
     files:
       - packages/core.yaml   # Hauptmodul
