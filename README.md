@@ -74,6 +74,7 @@ Auch wenn die Modellbezeichnung passt, kann es Unterschiede geben (kein USB-Ansc
 
 
 https://buymeacoffee.com/sorz2122
+
 ![bmc_qr](https://github.com/user-attachments/assets/87d5d62f-ba5c-4a7e-a4b8-4cf1fd3018af)
 
 
