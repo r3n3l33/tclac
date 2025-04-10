@@ -72,7 +72,7 @@
 
 Diese Modelle wurden erfolgreich getestet:
 
-- **TCL** TAC-07CHSA / TAC-09CHSA / TAC-12CHSA
+- **TCL** TAC-07CHSA / TAC-09CHSA / TAC-12CHSA / TAX-12CHDA
 - **Daichi** AIR20AVQ1, AIR25AVQS1R-1, DA35EVQ1-1
 - **Axioma** ASX09H1 / ASB09H1
 - **Dantex** RK-12SATI / RK-12SATIE  
