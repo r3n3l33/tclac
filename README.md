@@ -72,6 +72,12 @@ Diese Modelle wurden erfolgreich getestet:
 ⚠️ **Hinweis:**  
 Auch wenn die Modellbezeichnung passt, kann es Unterschiede geben (kein USB-Anschluss, kein UART auf der Platine, etc.)
 
+
+https://buymeacoffee.com/sorz2122
+![bmc_qr](https://github.com/user-attachments/assets/87d5d62f-ba5c-4a7e-a4b8-4cf1fd3018af)
+
+
+
 ---
 
 ## 🔧 Erweiterte Konfiguration per Remote Package
@@ -87,9 +93,6 @@ packages:
       - packages/core.yaml   # Hauptmodul
       # - packages/leds.yaml # Optional
     refresh: 30s
-
-https://buymeacoffee.com/sorz2122
-![bmc_qr](https://github.com/user-attachments/assets/87d5d62f-ba5c-4a7e-a4b8-4cf1fd3018af)
 
 
 
