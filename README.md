@@ -1,4 +1,11 @@
 Übersetzt mit ChatGPT. Ich habe es Erfolgreich mit einer TCL TAC-12CHDA eingebunden.
+Wiring is as follows:
+
+USB-A Pin	Wire Color	→	ESP32 Pin
+GND	Black	→	VIN
+D+	Green	→	GND
+D-	Grey	→	RXD
+VBUS	Red	→	TXD
 
 ![IMG_0778](https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545)
 
