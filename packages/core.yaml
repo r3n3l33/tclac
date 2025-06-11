@@ -40,6 +40,8 @@ esphome:
           id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::UPSIDE);
         } else if (id(vswing).active_index() == 2){
           id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::DOWNSIDE);
+        } else if (id(vswing).active_index() == 3){
+          id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::OFF);
         }
 
         if (id(hswing).active_index() == 0){
@@ -50,6 +52,8 @@ esphome:
           id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::CENTER);
         } else if (id(hswing).active_index() == 3){
           id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::RIGHTSIDE);
+        } else if (id(hswing).active_index() == 4){
+          id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::OFF);
         }
         
         if (id(vfixing).active_index() == 0){
@@ -206,6 +210,7 @@ select:
       - "Von oben nach unten"
       - "In der oberen Hälfte"
       - "In der unteren Hälfte"
+      - "Aus"
     optimistic: true
     restore_value: true
     on_value:
@@ -217,6 +222,8 @@ select:
             id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::UPSIDE);
           } else if (id(vswing).active_index() == 2){
             id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::DOWNSIDE);
+          } else if (id(vswing).active_index() == 3){
+            id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::OFF);
           }
 
   # Настройка горизонтального качания
@@ -229,6 +236,7 @@ select:
       - "Im linken Bereich"
       - "Im Zentrum"
       - "Im rechten Bereich"
+      - "Aus"
     optimistic: true
     restore_value: true
     on_value:
@@ -242,6 +250,8 @@ select:
             id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::CENTER);
           } else if (id(hswing).active_index() == 3){
             id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::RIGHTSIDE);
+          } else if (id(hswing).active_index() == 4){
+            id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::OFF);
           }
 
   # Настройка фиксации вертикальной заслонки
