@@ -46,22 +46,8 @@ void tclacClimate::setup() {
 #endif
 }
 
-void tclacClimate::loop()  {
-	// Если в буфере UART что-то есть, то читаем это что-то
 
-	//Send datagram for status response
-	dataTX[0] = 0xBB;
-	dataTX[1] = 0x00;
-	dataTX[2] = 0x01;
-	dataTX[3] = 0x0A;
-	//dataTX[4] = 0x03;
-	//dataTX[5] = 0x02;
-	//dataTX[6] = 0x00;
-	//dataTX[7] = 0x05;
-	//dataTX[8] = 0xB4;
-	
-	tclacClimate::sendData(dataTX, sizeof(dataTX));
-	delay(1000);
+void tclacClimate::loop()  {
 
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
@@ -127,32 +113,33 @@ void tclacClimate::readData() {
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
-	if (dataRX[MODE_POS] & ( 1 << 4)) {
-		// Если кондиционер включен, то разбираем данные для отображения
-		// ESP_LOGD("TCL", "AC is on");
-		uint8_t modeswitch = MODE_MASK & dataRX[MODE_POS];
-		uint8_t fanspeedswitch = FAN_SPEED_MASK & dataRX[FAN_SPEED_POS];
-		uint8_t swingmodeswitch = SWING_MODE_MASK & dataRX[SWING_POS];
-
-		switch (modeswitch) {
-			case MODE_AUTO:
+	switch (dataRX[MODE_POS])
+	{
+		case 0x08:
+			//auto
 				mode = climate::CLIMATE_MODE_AUTO;
-				break;
-			case MODE_COOL:
-				mode = climate::CLIMATE_MODE_COOL;
-				break;
-			case MODE_DRY:
-				mode = climate::CLIMATE_MODE_DRY;
-				break;
-			case MODE_FAN_ONLY:
+			break;
+	
+		case 0x07:
+			//Lüfter
 				mode = climate::CLIMATE_MODE_FAN_ONLY;
-				break;
-			case MODE_HEAT:
+			break;
+	
+		case 0x02:
+			//Trocknen
+				mode = climate::CLIMATE_MODE_DRY;
+			break;
+	
+		case 0x01:
+			//Heizen
 				mode = climate::CLIMATE_MODE_HEAT;
-				break;
-			default:
-				mode = climate::CLIMATE_MODE_AUTO;
-		}
+			break;
+	
+		case 0x03:
+			//Kühlen
+				mode = climate::CLIMATE_MODE_COOL;
+			break;
+	}
 
 		if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
 			fan_mode = climate::CLIMATE_FAN_QUIET;
@@ -223,6 +210,10 @@ void tclacClimate::readData() {
 // Climate control
 void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов работы кондиционера
+
+	this->readLock = true;
+
+
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
 		ESP_LOGD("TCL", "Get MODE from call");
@@ -263,6 +254,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	is_call_control = true;
 	takeControl();
 	allow_take_control = true;
+	this->readLock = false;
 }
 	
 	
@@ -593,7 +585,7 @@ void tclacClimate::sendData(byte * message, byte size) {
 	//Serial.write(message, size);
 	this->esphome::uart::UARTDevice::write_array(message, size);
 	//auto raw = getHex(message, size);
-	ESP_LOGD("TCL", "Message to TCL sended...");
+	ESP_LOGD("TCL", "Message sent to TCL...");
 	tclacClimate::dataShow(1,0);
 }
 
