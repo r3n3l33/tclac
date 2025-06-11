@@ -127,33 +127,7 @@ void tclacClimate::readData() {
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
-	switch (dataRX[MODE_POS])
-	{
-		case 0x08:
-			//auto
-				mode = climate::CLIMATE_MODE_AUTO;
-			break;
 	
-		case 0x07:
-			//Lüfter
-				mode = climate::CLIMATE_MODE_FAN_ONLY;
-			break;
-	
-		case 0x02:
-			//Trocknen
-				mode = climate::CLIMATE_MODE_DRY;
-			break;
-	
-		case 0x01:
-			//Heizen
-				mode = climate::CLIMATE_MODE_HEAT;
-			break;
-	
-		case 0x03:
-			//Kühlen
-				mode = climate::CLIMATE_MODE_COOL;
-			break;
-	}
 
 	
 	//dataTX[7] = 0x64;	//eco,display,beep,ontimerenable, offtimerenable,power,0,0
@@ -172,23 +146,56 @@ void tclacClimate::readData() {
 
 		switch (modeswitch) {
 			case MODE_AUTO:
-				//mode = climate::CLIMATE_MODE_AUTO;
+				mode = climate::CLIMATE_MODE_AUTO;
 				break;
 			case MODE_COOL:
-				//mode = climate::CLIMATE_MODE_COOL;
+				mode = climate::CLIMATE_MODE_COOL;
 				break;
 			case MODE_DRY:
-				//mode = climate::CLIMATE_MODE_DRY;
+				mode = climate::CLIMATE_MODE_DRY;
 				break;
 			case MODE_FAN_ONLY:
-				//mode = climate::CLIMATE_MODE_FAN_ONLY;
+				mode = climate::CLIMATE_MODE_FAN_ONLY;
 				break;
 			case MODE_HEAT:
-				//mode = climate::CLIMATE_MODE_HEAT;
+				mode = climate::CLIMATE_MODE_HEAT;
 				break;
 			default:
-				//mode = climate::CLIMATE_MODE_AUTO;
+				mode = climate::CLIMATE_MODE_AUTO;
 		}
+
+
+		//OVERRIDE
+
+		switch (dataRX[MODE_POS])
+		{
+			case 0x08:
+				//auto
+					mode = climate::CLIMATE_MODE_AUTO;
+				break;
+		
+			case 0x07:
+				//Lüfter
+					mode = climate::CLIMATE_MODE_FAN_ONLY;
+				break;
+		
+			case 0x02:
+				//Trocknen
+					mode = climate::CLIMATE_MODE_DRY;
+				break;
+		
+			case 0x01:
+				//Heizen
+					mode = climate::CLIMATE_MODE_HEAT;
+				break;
+		
+			case 0x03:
+				//Kühlen
+					mode = climate::CLIMATE_MODE_COOL;
+				break;
+		}
+
+
 
 		if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
 			fan_mode = climate::CLIMATE_FAN_QUIET;
