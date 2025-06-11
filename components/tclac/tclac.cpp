@@ -283,9 +283,9 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
-		target_temperature_set = 31 - (int)call.get_target_temperature().value();
+		target_temperature_set = 111 - (int)call.get_target_temperature().value();
 	} else {
-		target_temperature_set = 31 - (int)target_temperature;
+		target_temperature_set = 111 - (int)target_temperature;
 	}
 	
 	is_call_control = true;
@@ -311,7 +311,7 @@ void tclacClimate::takeControl() {
 		switch_preset = preset.value();
 		switch_fan_mode = fan_mode.value();
 		switch_swing_mode = swing_mode;
-		target_temperature_set = 31 - (int)target_temperature;
+		target_temperature_set = 111 - (int)target_temperature;
 	}
 	
 	// Включаем или отключаем пищалку в зависимости от переключателя в настройках
