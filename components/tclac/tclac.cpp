@@ -67,7 +67,7 @@ void tclacClimate::loop()  {
 		dataShow(0, true);
 		dataRX[0] = esphome::uart::UARTDevice::read();
 		// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
-		if (dataRX[0] != 0x03) {
+		if (dataRX[0] != 0x03 && dataRX[0] != 0x20) {
 			ESP_LOGD("TCL", "Wrong byte");
 			dataShow(0,0);
 			return;
@@ -119,8 +119,10 @@ void tclacClimate::update() {
 
 void tclacClimate::readData() {
 	
-	current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
+	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	current_temperature = 95 - dataRX[5];
+	this->current_temperature = current_temperature;
 	target_temperature = 20;
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
