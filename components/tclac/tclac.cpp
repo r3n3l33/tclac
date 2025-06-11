@@ -329,10 +329,10 @@ void tclacClimate::takeControl() {
 	// ВНИМАНИЕ! При выключении дисплея кондиционер сам принудительно переходит в автоматический режим!
 	
 	if ((display_status_) && (switch_climate_mode != climate::CLIMATE_MODE_OFF)){
-		ESP_LOGD("TCL", "Dispaly turn ON");
+		ESP_LOGD("TCL", "Display turn ON");
 		dataTX[7] += 0b01000000;
 	} else {
-		ESP_LOGD("TCL", "Dispaly turn OFF");
+		ESP_LOGD("TCL", "Display turn OFF");
 		dataTX[7] += 0b00000000;
 	}
 		
@@ -621,7 +621,7 @@ void tclacClimate::sendData(byte * message, byte size) {
 	//Serial.write(message, size);
 	this->esphome::uart::UARTDevice::write_array(message, size);
 	//auto raw = getHex(message, size);
-	ESP_LOGD("TCL", "Message to TCL sended...");
+	ESP_LOGD("TCL", "Message sent to TCL...");
 	tclacClimate::dataShow(1,0);
 }
 
