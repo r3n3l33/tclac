@@ -60,46 +60,46 @@ void tclacClimate::loop()  {
 	//dataTX[7] = 0x05;
 	//dataTX[8] = 0xB4;
 	
-	//tclacClimate::sendData(dataTX, sizeof(dataTX));
-	//delay(1000);
+	tclacClimate::sendData(dataTX, sizeof(dataTX));
+	delay(1000);
 
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
 		dataRX[0] = esphome::uart::UARTDevice::read();
 		// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
-		if (dataRX[0] != 0xBB) {
+		if (dataRX[0] != 0x03) {
 			ESP_LOGD("TCL", "Wrong byte");
 			dataShow(0,0);
 			return;
 		}
 		// А вот если совпал заголовок (0xBB), то начинаем чтение по цепочке еще 4 байт
-		delay(5);
-		dataRX[1] = esphome::uart::UARTDevice::read();
-		delay(5);
-		dataRX[2] = esphome::uart::UARTDevice::read();
-		delay(5);
-		dataRX[3] = esphome::uart::UARTDevice::read();
-		delay(5);
-		dataRX[4] = esphome::uart::UARTDevice::read();
+		//delay(5);
+		//dataRX[1] = esphome::uart::UARTDevice::read();
+		//delay(5);
+		//dataRX[2] = esphome::uart::UARTDevice::read();
+		//delay(5);
+		//dataRX[3] = esphome::uart::UARTDevice::read();
+		//delay(5);
+		//dataRX[4] = esphome::uart::UARTDevice::read();
 
 		//auto raw = getHex(dataRX, 5);
 		
 		//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
 
 		// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
-		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
+		esphome::uart::UARTDevice::read_array(dataRX+1, 32);
 
 		byte check = getChecksum(dataRX, sizeof(dataRX));
 
-		//raw = getHex(dataRX, sizeof(dataRX));
+		raw = getHex(dataRX, sizeof(dataRX));
 		
-		//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
+		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
 		// Проверяем контрольную сумму
-		if (check != dataRX[60]) {
+		if (check != dataRX[33]) {
 			ESP_LOGD("TCL", "Invalid checksum %x", check);
 			tclacClimate::dataShow(0,0);
-			return;
+			//return;
 		} else {
 			//ESP_LOGD("TCL", "checksum OK %x", check);
 		}
