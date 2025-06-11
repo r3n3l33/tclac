@@ -60,8 +60,8 @@ void tclacClimate::loop()  {
 	dataTX[7] = 0x05;
 	dataTX[8] = 0xB4;
 	
-	tclacClimate::sendData(dataTX, sizeof(dataTX));
-	delay(1000);
+	//tclacClimate::sendData(dataTX, sizeof(dataTX));
+	//delay(1000);
 
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
