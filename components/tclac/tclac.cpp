@@ -82,7 +82,7 @@ void tclacClimate::loop()  {
 		//delay(5);
 		//dataRX[4] = esphome::uart::UARTDevice::read();
 
-		//auto raw = getHex(dataRX, 5);
+		auto raw = getHex(dataRX, sizeof(dataRX));
 		
 		//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
 
