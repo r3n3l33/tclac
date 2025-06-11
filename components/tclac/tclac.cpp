@@ -108,7 +108,7 @@ void tclacClimate::readData() {
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 	current_temperature = 95 - dataRX[5];
-	this->current_temperature = current_temperature;
+	//this->current_temperature = current_temperature;
 	target_temperature = 20;
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
