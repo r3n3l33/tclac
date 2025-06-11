@@ -101,7 +101,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 	//dataTX[6] = 0x00;
 	//dataTX[7] = 0x05;
 	//dataTX[8] = 0xB4;
-		byte poll[8] = {0xBB,0x00,0x01,0x09,0x02,0x04,0x00,0xB5};
+		byte poll[4] = {0xBB,0x00,0x01,0x0A};
 		// Инициализация и начальное наполнение переменных состоянй переключателей
 		bool beeper_status_;
 		bool display_status_;
