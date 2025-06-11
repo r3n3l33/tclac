@@ -58,12 +58,14 @@ enum class VerticalSwingDirection : uint8_t {
 	UP_DOWN = 0,
 	UPSIDE = 1,
 	DOWNSIDE = 2,
+	OFF = 3
 };
 enum class HorizontalSwingDirection : uint8_t {
 	LEFT_RIGHT = 0,
 	LEFTSIDE = 1,
 	CENTER = 2,
 	RIGHTSIDE = 3,
+	OFF = 4
 };
 enum class AirflowVerticalDirection : uint8_t {
 	LAST = 0,

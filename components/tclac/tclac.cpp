@@ -237,9 +237,9 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
-		target_temperature_set = 31-(int)call.get_target_temperature().value();
+		target_temperature_set = 111-(int)call.get_target_temperature().value();
 	} else {
-		target_temperature_set = 31-(int)target_temperature;
+		target_temperature_set = 111-(int)target_temperature;
 	}
 	
 	is_call_control = true;
@@ -265,7 +265,7 @@ void tclacClimate::takeControl() {
 		switch_preset = preset.value();
 		switch_fan_mode = fan_mode.value();
 		switch_swing_mode = swing_mode;
-		target_temperature_set = 31-(int)target_temperature;
+		target_temperature_set = 111-(int)target_temperature;
 	}
 	
 	// Включаем или отключаем пищалку в зависимости от переключателя в настройках
@@ -425,6 +425,10 @@ void tclacClimate::takeControl() {
 		
 	// Устанавливаем режим для качания вертикальной заслонки
 	switch(vertical_swing_direction_) {
+		case VerticalSwingDirection::OFF:
+			dataTX[32]	+= 0b00000000;
+			ESP_LOGD("TCL", "Vertical swing: off");
+			break;
 		case VerticalSwingDirection::UP_DOWN:
 			dataTX[32]	+= 0b00001000;
 			ESP_LOGD("TCL", "Vertical swing: up-down");
@@ -440,6 +444,10 @@ void tclacClimate::takeControl() {
 	}
 	// Устанавливаем режим для качания горизонтальных заслонок
 	switch(horizontal_swing_direction_) {
+		case HorizontalSwingDirection::OFF:
+			dataTX[33]	+= 0b00000000;
+			ESP_LOGD("TCL", "Horizontal swing: left-right");
+			break;
 		case HorizontalSwingDirection::LEFT_RIGHT:
 			dataTX[33]	+= 0b00001000;
 			ESP_LOGD("TCL", "Horizontal swing: left-right");
@@ -545,6 +553,7 @@ void tclacClimate::takeControl() {
 	dataTX[26] = 0x00;	//??
 	dataTX[27] = 0x00;	//??
 	dataTX[28] = 0x00;	//??
+	dataTX[29] = 0x20;	//??
 	dataTX[30] = 0x00;	//??
 	dataTX[31] = 0x00;	//??
 	//dataTX[32] = 0x00;	//0,0,0,режим вертикального качания(2),режим вертикальной фиксации(3)
