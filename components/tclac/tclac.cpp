@@ -50,15 +50,15 @@ void tclacClimate::loop()  {
 	// Если в буфере UART что-то есть, то читаем это что-то
 
 	//Send datagram for status response
-	dataTX[0] = 0xBB
-	dataTX[1] = 0x00
-	dataTX[2] = 0x01
-	dataTX[3] = 0x0A
-	dataTX[4] = 0x03
-	dataTX[5] = 0x02
-	dataTX[6] = 0x00
-	dataTX[7] = 0x05
-	dataTX[8] = 0xB4
+	dataTX[0] = 0xBB;
+	dataTX[1] = 0x00;
+	dataTX[2] = 0x01;
+	dataTX[3] = 0x0A;
+	dataTX[4] = 0x03;
+	dataTX[5] = 0x02;
+	dataTX[6] = 0x00;
+	dataTX[7] = 0x05;
+	dataTX[8] = 0xB4;
 	
 	tclacClimate::sendData(dataTX, sizeof(dataTX));
 	delay(5);
