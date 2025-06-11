@@ -105,7 +105,8 @@ void tclacClimate::update() {
 void tclacClimate::readData() {
 	
 	current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
-	target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	target_temperature = 20;
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
@@ -265,7 +266,7 @@ void tclacClimate::takeControl() {
 		switch_preset = preset.value();
 		switch_fan_mode = fan_mode.value();
 		switch_swing_mode = swing_mode;
-		target_temperature_set = 111-(int)target_temperature;
+		target_temperature_set = 0x6F-(int)target_temperature;
 	}
 	
 	// Включаем или отключаем пищалку в зависимости от переключателя в настройках
