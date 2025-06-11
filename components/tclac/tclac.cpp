@@ -46,8 +46,22 @@ void tclacClimate::setup() {
 #endif
 }
 
-
 void tclacClimate::loop()  {
+	// Если в буфере UART что-то есть, то читаем это что-то
+
+	//Send datagram for status response
+	dataTX[0] = 0xBB;
+	dataTX[1] = 0x00;
+	dataTX[2] = 0x01;
+	dataTX[3] = 0x0A;
+	//dataTX[4] = 0x03;
+	//dataTX[5] = 0x02;
+	//dataTX[6] = 0x00;
+	//dataTX[7] = 0x05;
+	//dataTX[8] = 0xB4;
+	
+	tclacClimate::sendData(dataTX, sizeof(dataTX));
+	delay(1000);
 
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
@@ -108,7 +122,7 @@ void tclacClimate::readData() {
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 	current_temperature = 95 - dataRX[5];
-	//this->current_temperature = current_temperature;
+	this->current_temperature = current_temperature;
 	target_temperature = 20;
 
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
@@ -140,6 +154,41 @@ void tclacClimate::readData() {
 				mode = climate::CLIMATE_MODE_COOL;
 			break;
 	}
+
+	
+	//dataTX[7] = 0x64;	//eco,display,beep,ontimerenable, offtimerenable,power,0,0
+	//dataTX[8] = 0x08;	//mute,0,turbo,health, mode(4) mode 01 heat, 02 dry, 03 cool, 07 fan, 08 auto, health(+16), 41=turbo-heat 43=turbo-cool (turbo = 0x40+ 0x01..0x08)
+	//dataTX[9] = 0x0f;	//0 -31 ;    15 - 16 0,0,0,0, temp(4) settemp 31 - x
+	//dataTX[10] = 0x00;	//0,timerindicator,swingv(3),fan(3) fan+swing modes //0=auto 1=low 2=med 3=high
+	//dataTX[11] = 0x00;	//0,offtimer(6),0
+
+
+	if (dataRX[MODE_POS] & ( 1 << 4)) {
+		// Если кондиционер включен, то разбираем данные для отображения
+		// ESP_LOGD("TCL", "AC is on");
+		uint8_t modeswitch = MODE_MASK & dataRX[MODE_POS];
+		uint8_t fanspeedswitch = FAN_SPEED_MASK & dataRX[FAN_SPEED_POS];
+		uint8_t swingmodeswitch = SWING_MODE_MASK & dataRX[SWING_POS];
+
+		switch (modeswitch) {
+			case MODE_AUTO:
+				//mode = climate::CLIMATE_MODE_AUTO;
+				break;
+			case MODE_COOL:
+				//mode = climate::CLIMATE_MODE_COOL;
+				break;
+			case MODE_DRY:
+				//mode = climate::CLIMATE_MODE_DRY;
+				break;
+			case MODE_FAN_ONLY:
+				//mode = climate::CLIMATE_MODE_FAN_ONLY;
+				break;
+			case MODE_HEAT:
+				//mode = climate::CLIMATE_MODE_HEAT;
+				break;
+			default:
+				//mode = climate::CLIMATE_MODE_AUTO;
+		}
 
 		if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
 			fan_mode = climate::CLIMATE_FAN_QUIET;
@@ -210,7 +259,6 @@ void tclacClimate::readData() {
 // Climate control
 void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов работы кондиционера
-
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
 		ESP_LOGD("TCL", "Get MODE from call");
@@ -581,7 +629,7 @@ void tclacClimate::sendData(byte * message, byte size) {
 	//Serial.write(message, size);
 	this->esphome::uart::UARTDevice::write_array(message, size);
 	//auto raw = getHex(message, size);
-	ESP_LOGD("TCL", "Message sent to TCL...");
+	ESP_LOGD("TCL", "Message to TCL sended...");
 	tclacClimate::dataShow(1,0);
 }
 
@@ -725,4 +773,5 @@ void tclacClimate::set_supported_presets(const std::set<climate::ClimatePreset> 
   this->supported_presets_ = presets;
 }
 
+}
 }
