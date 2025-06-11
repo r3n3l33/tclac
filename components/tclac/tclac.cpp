@@ -211,9 +211,6 @@ void tclacClimate::readData() {
 void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов работы кондиционера
 
-	this->readLock = true;
-
-
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
 		ESP_LOGD("TCL", "Get MODE from call");
@@ -254,7 +251,6 @@ void tclacClimate::control(const ClimateCall &call) {
 	is_call_control = true;
 	takeControl();
 	allow_take_control = true;
-	this->readLock = false;
 }
 	
 	
@@ -729,5 +725,4 @@ void tclacClimate::set_supported_presets(const std::set<climate::ClimatePreset> 
   this->supported_presets_ = presets;
 }
 
-}
 }

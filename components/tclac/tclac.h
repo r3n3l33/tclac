@@ -93,7 +93,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		// А dataRX по прежнему из 61 байта
 		byte dataRX[33];
 		// Команда запроса состояния
-		byte poll[8] = {0xBB,0x00,0x01, 0x0A}; //0x04,0x02,0x01,0x00,0xBD};
+		byte poll[8] = {0xBB,0x00,0x01,0x0A}; //0x04,0x02,0x01,0x00,0xBD};
 		// Инициализация и начальное наполнение переменных состоянй переключателей
 		bool beeper_status_;
 		bool display_status_;
@@ -106,7 +106,6 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		int target_temperature_set = 0;
 		uint8_t switch_climate_mode = 0;
 		bool allow_take_control = false;
-		bool readLock = false;
 		
 		esphome::climate::ClimateTraits traits_;
 		
