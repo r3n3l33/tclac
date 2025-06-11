@@ -237,9 +237,9 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
-		target_temperature_set = 111-(int)call.get_target_temperature().value();
+		target_temperature_set = (int)call.get_target_temperature().value();
 	} else {
-		target_temperature_set = 111-(int)target_temperature;
+		target_temperature_set = (int)target_temperature;
 	}
 	
 	is_call_control = true;
