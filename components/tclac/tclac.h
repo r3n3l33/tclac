@@ -92,8 +92,16 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		byte dataTX[38];
 		// А dataRX по прежнему из 61 байта
 		byte dataRX[33];
-		// Команда запроса состояния
-		byte poll[8] = {0xBB,0x00,0x01,0x0A}; //0x04,0x02,0x01,0x00,0xBD};
+		// Команда запроса состояния	dataTX[0] = 0xBB;
+	//dataTX[1] = 0x00;
+	//dataTX[2] = 0x01;
+	//dataTX[3] = 0x0A;
+	//dataTX[4] = 0x03;
+	//dataTX[5] = 0x02;
+	//dataTX[6] = 0x00;
+	//dataTX[7] = 0x05;
+	//dataTX[8] = 0xB4;
+		byte poll[8] = {0x00,0x01,0x0A,0x03,0x02,0x00,0x05,0xB4};
 		// Инициализация и начальное наполнение переменных состоянй переключателей
 		bool beeper_status_;
 		bool display_status_;
