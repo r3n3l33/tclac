@@ -48,8 +48,6 @@ void tclacClimate::setup() {
 
 void tclacClimate::loop()  {
 
-	byte polli[] = [0xBB,0x00,0x00,0x00,0x00,0x00,0x00,0x00];
-
 	int bs = sizeof(polli);
 	// position holders
 	int p=bs-1;
@@ -70,12 +68,12 @@ void tclacClimate::loop()  {
 		}
 	} while(polli[1] != 0xff 
 			|| polli[2] != 0xff
-			|| bytes[3] != 0xff 
-			|| bytes[4] != 0xff 
-			|| bytes[5] != 0xff 
-			|| bytes[6] != 0xff 
-			|| bytes[7] != 0xff 
-			|| bytes[8] != 0xff);
+			|| polli[3] != 0xff 
+			|| polli[4] != 0xff 
+			|| polli[5] != 0xff 
+			|| polli[6] != 0xff 
+			|| polli[7] != 0xff 
+			|| polli[8] != 0xff);
 	// and so on, iterating throug array is to slow
 	
 
