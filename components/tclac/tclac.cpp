@@ -101,6 +101,7 @@ void tclacClimate::update() {
 	//this->esphome::uart::UARTDevice::write_str(raw);
 
 	//ESP_LOGD("TCL", "chek status sended");
+	poll[sizeof(poll)+1] = tclacClimate::getChecksum(poll, sizeof(poll));
 	tclacClimate::sendData(poll, sizeof(poll));
 	tclacClimate::dataShow(1,0);
 }
