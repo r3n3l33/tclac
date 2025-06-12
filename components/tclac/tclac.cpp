@@ -47,6 +47,42 @@ void tclacClimate::setup() {
 }
 
 void tclacClimate::loop()  {
+
+	byte polli[8] = [0xBB,0x00,0x00,0x00,0x00,0x00,0x00,0x00];
+
+	int bs = sizeof(polli);
+	// position holders
+	int p=bs-1;
+	int p2 = 1;
+	do {
+
+		this->esphome::uart::UARTDevice::write_array(polli, sizeof(polli));
+
+		polli[p]++;
+		for(p2=bs-1;p2>=0;p2--) {
+			if(polli[p2] != 0xff) {
+				p = p2;
+				break;
+			} else if (polli[0] != 0xff) {
+				polli[p2] = 0x00;
+				p--;
+			}
+		}
+	} while(polli[1] != 0xff 
+			|| polli[2] != 0xff
+			|| bytes[3] != 0xff 
+			|| bytes[4] != 0xff 
+			|| bytes[5] != 0xff 
+			|| bytes[6] != 0xff 
+			|| bytes[7] != 0xff 
+			|| bytes[8] != 0xff);
+	// and so on, iterating throug array is to slow
+	
+
+	
+
+
+
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
 		dataRX[0] = esphome::uart::UARTDevice::read();
