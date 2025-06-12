@@ -98,7 +98,7 @@ void tclacClimate::update() {
 	//this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
 	auto raw = tclacClimate::getHex(poll, sizeof(poll));
-	this->esphome::uart::UARTDevice::write_array(raw, sizeof(raw));
+	this->esphome::uart::UARTDevice::write_str(raw);
 
 	//ESP_LOGD("TCL", "chek status sended");
 	tclacClimate::dataShow(1,0);
