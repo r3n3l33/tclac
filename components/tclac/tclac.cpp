@@ -47,40 +47,6 @@ void tclacClimate::setup() {
 }
 
 void tclacClimate::loop()  {
-
-	int bs = sizeof(polli);
-	// position holders
-	int p=bs-1;
-	int p2 = 1;
-	do {
-
-		this->esphome::uart::UARTDevice::write_array(polli, sizeof(polli));
-
-		polli[p]++;
-		for(p2=bs-1;p2>=0;p2--) {
-			if(polli[p2] != 0xff) {
-				p = p2;
-				break;
-			} else if (polli[0] != 0xff) {
-				polli[p2] = 0x00;
-				p--;
-			}
-		}
-	} while(polli[1] != 0xff 
-			|| polli[2] != 0xff
-			|| polli[3] != 0xff 
-			|| polli[4] != 0xff 
-			|| polli[5] != 0xff 
-			|| polli[6] != 0xff 
-			|| polli[7] != 0xff 
-			|| polli[8] != 0xff);
-	// and so on, iterating throug array is to slow
-	
-
-	
-
-
-
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
 		dataRX[0] = esphome::uart::UARTDevice::read();
@@ -129,7 +95,7 @@ void tclacClimate::loop()  {
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
-	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
+	//this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 	//this->esphome::uart::UARTDevice::write_str(raw);
@@ -137,6 +103,37 @@ void tclacClimate::update() {
 	//ESP_LOGD("TCL", "chek status sended");
 	//poll[sizeof(poll)+1] = tclacClimate::getChecksum(poll, sizeof(poll));
 	//tclacClimate::sendData(poll, sizeof(poll));
+
+	
+	int bs = sizeof(polli);
+	// position holders
+	int p=bs-1;
+	int p2 = 1;
+	do {
+
+		this->esphome::uart::UARTDevice::write_array(polli, sizeof(polli));
+
+		polli[p]++;
+		for(p2=bs-1;p2>=0;p2--) {
+			if(polli[p2] != 0xff) {
+				p = p2;
+				break;
+			} else if (polli[0] != 0xff) {
+				polli[p2] = 0x00;
+				p--;
+			}
+		}
+	} while(polli[1] != 0xff 
+			|| polli[2] != 0xff
+			|| polli[3] != 0xff 
+			|| polli[4] != 0xff 
+			|| polli[5] != 0xff 
+			|| polli[6] != 0xff 
+			|| polli[7] != 0xff 
+			|| polli[8] != 0xff);
+	// and so on, iterating throug array is to slow
+	
+
 	tclacClimate::dataShow(1,0);
 }
 
