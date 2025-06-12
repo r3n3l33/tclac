@@ -91,7 +91,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		// dataTX с управлением состоит из 38 байт
 		byte dataTX[38];
 		// А dataRX по прежнему из 61 байта
-		byte dataRX[33];
+		byte dataRX[31];
 		// Команда запроса состояния	dataTX[0] = 0xBB;
 	//dataTX[1] = 0x00;
 	//dataTX[2] = 0x01;
