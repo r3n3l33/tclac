@@ -95,7 +95,7 @@ void tclacClimate::loop()  {
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
-	byte out[sizeof(poll) + 1] = 0;
+	byte out[sizeof(poll) + 1] = {0};
 
 	for (size_t i = 0; i < sizeof(poll); i++)
 	{
