@@ -95,17 +95,17 @@ void tclacClimate::loop()  {
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
-	byte out[sizeof(poll) + 1] = {0};
+	//byte out[sizeof(poll) + 1] = {0};
 
-	for (size_t i = 0; i < sizeof(poll); i++)
-	{
-		out[i] = poll[i];
-	}
+	//for (size_t i = 0; i < sizeof(poll); i++)
+	//{
+	//	out[i] = poll[i];
+	//}
 	
 
-	out[sizeof(out)] = tclacClimate::getChecksum(poll, sizeof(poll));
+	//out[sizeof(out)] = tclacClimate::getChecksum(poll, sizeof(poll));
 
-	this->esphome::uart::UARTDevice::write_array(out, sizeof(out));
+	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 	//this->esphome::uart::UARTDevice::write_str(raw);
