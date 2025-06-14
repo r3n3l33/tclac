@@ -103,7 +103,7 @@ void tclacClimate::update() {
 	}
 	
 
-	out[sizeof(out)] = this->esphome::uart::UARTDevice::getHex(poll, sizeof(poll));
+	out[sizeof(out)] = getHex(poll, sizeof(poll));
 
 	this->esphome::uart::UARTDevice::write_array(out, sizeof(out));
 	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
