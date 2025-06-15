@@ -57,35 +57,35 @@ void tclacClimate::loop()  {
 			return;
 		}
 		// А вот если совпал заголовок (0xBB), то начинаем чтение по цепочке еще 4 байт
-		//delay(5);
-		//dataRX[1] = esphome::uart::UARTDevice::read();
-		//delay(5);
-		//dataRX[2] = esphome::uart::UARTDevice::read();
-		//delay(5);
-		//dataRX[3] = esphome::uart::UARTDevice::read();
-		//delay(5);
-		//dataRX[4] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[1] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[2] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[3] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[4] = esphome::uart::UARTDevice::read();
 
-		auto raw = getHex(dataRX, sizeof(dataRX));
+		//auto raw = getHex(dataRX, 5);
 		
 		//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
 
 		// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
-		esphome::uart::UARTDevice::read_array(dataRX+1, 32);
+		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
 
 		byte check = getChecksum(dataRX, sizeof(dataRX));
 
-		raw = getHex(dataRX, sizeof(dataRX));
+		//raw = getHex(dataRX, sizeof(dataRX));
 		
-		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
+		//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
 		// Проверяем контрольную сумму
-		if (check != dataRX[33]) {
+		if (check != dataRX[60]) {
 			ESP_LOGD("TCL", "Invalid checksum %x", check);
 			tclacClimate::dataShow(0,0);
-			//return;
+			return;
 		} else {
-			//ESP_LOGD("TCL", "checksum OK %x", check);
+			ESP_LOGD("TCL", "checksum OK %x", check);
 		}
 		tclacClimate::dataShow(0,0);
 		// Прочитав все из буфера приступаем к разбору данных
@@ -95,54 +95,10 @@ void tclacClimate::loop()  {
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
-	//byte out[sizeof(poll) + 1] = {0};
-
-	//for (size_t i = 0; i < sizeof(poll); i++)
-	//{
-	//	out[i] = poll[i];
-	//}
-	
-
-	//out[sizeof(out)] = tclacClimate::getChecksum(poll, sizeof(poll));
-
 	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
-	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
-	//this->esphome::uart::UARTDevice::write_str(raw);
 
 	//ESP_LOGD("TCL", "chek status sended");
-	//poll[sizeof(poll)+1] = tclacClimate::getChecksum(poll, sizeof(poll));
-	//tclacClimate::sendData(poll, sizeof(poll));
-
-	
-	// int bs = sizeof(polli);
-	// // position holders
-	// int p=bs-1;
-	// int p2 = 1;
-	// do {
-
-	// 	this->esphome::uart::UARTDevice::write_array(polli, sizeof(polli));
-
-	// 	polli[p]++;
-	// 	for(p2=bs-1;p2>=0;p2--) {
-	// 		if(polli[p2] != 0xff) {
-	// 			p = p2;
-	// 			break;
-	// 		} else if (polli[0] != 0xff) {
-	// 			polli[p2] = 0x00;
-	// 			p--;
-	// 		}
-	// 	}
-	// } while(polli[1] != 0xff 
-	// 		|| polli[2] != 0xff
-	// 		|| polli[3] != 0xff 
-	// 		|| polli[4] != 0xff 
-	// 		|| polli[5] != 0xff 
-	// 		|| polli[6] != 0xff 
-	// 		|| polli[7] != 0xff 
-	// 		|| polli[8] != 0xff);
-	// // and so on, iterating throug array is to slow
-	
 
 	tclacClimate::dataShow(1,0);
 }
@@ -155,16 +111,12 @@ void tclacClimate::readData() {
 	this->current_temperature = current_temperature;
 	target_temperature = 20;
 
-	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
+	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
-	
+	current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
+	target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 
-	
-	//dataTX[7] = 0x64;	//eco,display,beep,ontimerenable, offtimerenable,power,0,0
-	//dataTX[8] = 0x08;	//mute,0,turbo,health, mode(4) mode 01 heat, 02 dry, 03 cool, 07 fan, 08 auto, health(+16), 41=turbo-heat 43=turbo-cool (turbo = 0x40+ 0x01..0x08)
-	//dataTX[9] = 0x0f;	//0 -31 ;    15 - 16 0,0,0,0, temp(4) settemp 31 - x
-	//dataTX[10] = 0x00;	//0,timerindicator,swingv(3),fan(3) fan+swing modes //0=auto 1=low 2=med 3=high
-	//dataTX[11] = 0x00;	//0,offtimer(6),0
+	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
 
 	if (dataRX[MODE_POS] & ( 1 << 4)) {
