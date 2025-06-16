@@ -100,7 +100,7 @@ void tclacClimate::update() {
 	delay(500);
 	int i = 0;
 	while (esphome::uart::UARTDevice::available() > 0) {
-		esphome::uart::UARTDevice::read_byte(dataRX[i]);
+		esphome::uart::UARTDevice::read_byte(&dataRX[i]);
 		i++;
 	}
 
@@ -111,7 +111,7 @@ void tclacClimate::update() {
 	delay(500);
 	int i = 0;
 	while (esphome::uart::UARTDevice::available() > 0) {
-		esphome::uart::UARTDevice::read_byte(dataRX[i]);
+		esphome::uart::UARTDevice::read_byte(&dataRX[i]);
 		i++;
 	}
 
