@@ -109,7 +109,7 @@ void tclacClimate::update() {
 
 	this->esphome::uart::UARTDevice::write_array(polltwo, sizeof(polltwo));
 	delay(500);
-	int i = 0;
+	i = 0;
 	while (esphome::uart::UARTDevice::available() > 0) {
 		esphome::uart::UARTDevice::read_byte(&dataRX[i]);
 		i++;
