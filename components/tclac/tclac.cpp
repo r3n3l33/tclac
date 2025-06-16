@@ -47,76 +47,63 @@ void tclacClimate::setup() {
 }
 
 void tclacClimate::loop()  {
-	// if (esphome::uart::UARTDevice::available() > 0) {
-	// 	dataShow(0, true);
-	// 	dataRX[0] = esphome::uart::UARTDevice::read();
-	// 	// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
-	// 	if (dataRX[0] != 0xBB) {
-	// 		ESP_LOGD("TCL", "Wrong byte");
-	// 		dataShow(0,0);
-	// 		return;
-	// 	}
-	// 	// А вот если совпал заголовок (0xBB), то начинаем чтение по цепочке еще 4 байт
-	// 	delay(5);
-	// 	dataRX[1] = esphome::uart::UARTDevice::read();
-	// 	delay(5);
-	// 	dataRX[2] = esphome::uart::UARTDevice::read();
-	// 	delay(5);
-	// 	dataRX[3] = esphome::uart::UARTDevice::read();
-	// 	delay(5);
-	// 	dataRX[4] = esphome::uart::UARTDevice::read();
+	if (esphome::uart::UARTDevice::available() > 0) {
+		dataShow(0, true);
+		dataRX = {0};
+		dataRX[0] = esphome::uart::UARTDevice::read();
+		// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
+		if (dataRX[0] != 0xBB) {
+			ESP_LOGD("TCL", "Wrong byte");
+			dataShow(0,0);
+			return;
+		}
+		// А вот если совпал заголовок (0xBB), то начинаем чтение по цепочке еще 4 байт
+		delay(5);
+		dataRX[1] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[2] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[3] = esphome::uart::UARTDevice::read();
+		delay(5);
+		dataRX[4] = esphome::uart::UARTDevice::read();
 
-	// 	//auto raw = getHex(dataRX, 5);
+		//auto raw = getHex(dataRX, 5);
 		
-	// 	//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
+		//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
 
-	// 	// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
-	// 	esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
+		// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
+		//esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
+		int c = 0;
+		while(esphome::uart::UARTDevice::available() != 0){
+			esphome::uart::UARTDevice::read_byte(&dataRX[5+c]);
+			c++;
+		}
 
-	// 	byte check = getChecksum(dataRX, sizeof(dataRX));
+		byte check = getChecksum(dataRX, sizeof(dataRX));
 
-	// 	//raw = getHex(dataRX, sizeof(dataRX));
+		raw = getHex(dataRX, sizeof(dataRX));
 		
-	// 	//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
+		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
-	// 	// Проверяем контрольную сумму
-	// 	//if (check != dataRX[60]) {
-	// 	//	ESP_LOGD("TCL", "Invalid checksum %x", check);
-	// 	//	tclacClimate::dataShow(0,0);
-	// 	//	return;
-	// 	//} else {
-	// 	//	ESP_LOGD("TCL", "checksum OK %x", check);
-	// 	//}
-	// 	tclacClimate::dataShow(0,0);
-	// 	// Прочитав все из буфера приступаем к разбору данных
-	// 	tclacClimate::readData();
-	// }
+		// Проверяем контрольную сумму
+		//if (check != dataRX[60]) {
+		//	ESP_LOGD("TCL", "Invalid checksum %x", check);
+		//	tclacClimate::dataShow(0,0);
+		//	return;
+		//} else {
+		//	ESP_LOGD("TCL", "checksum OK %x", check);
+		//}
+		tclacClimate::dataShow(0,0);
+		// Прочитав все из буфера приступаем к разбору данных
+		tclacClimate::readData();
+	}
 }
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
-	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
+	this->esphome::uart::UARTDevice::write_array(polltwo, sizeof(polltwo));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 	this->esphome::uart::UARTDevice::flush();
-	int c = 0;
-	while (esphome::uart::UARTDevice::available() > 0) {
-		esphome::uart::UARTDevice::read_byte(&dataRX[c]);
-		c++;
-	}
-
-	tclacClimate::readData();
-	delay(500);
-
-	this->esphome::uart::UARTDevice::write_array(polltwo, sizeof(polltwo));
-	this->esphome::uart::UARTDevice::flush();
-	c = 0;
-	while (esphome::uart::UARTDevice::available() > 0) {
-		esphome::uart::UARTDevice::read_byte(&dataRX[c]);
-		c++;
-	}
-
-	tclacClimate::readData();
-	//ESP_LOGD("TCL", "chek status sended");
 
 	tclacClimate::dataShow(1,0);
 }
