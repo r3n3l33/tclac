@@ -97,15 +97,16 @@ void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
 	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
-	delay(5);
+	delay(500);
 	if (esphome::uart::UARTDevice::available() > 0) {
 		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
 		tclacClimate::readData();
 	}
 
+	delay(500);
 
 	this->esphome::uart::UARTDevice::write_array(polltwo, sizeof(polltwo));
-	delay(5);
+	delay(500);
 	if (esphome::uart::UARTDevice::available() > 0) {
 		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
 		tclacClimate::readData();
