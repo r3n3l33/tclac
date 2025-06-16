@@ -80,13 +80,13 @@ void tclacClimate::loop()  {
 		//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
 		// Проверяем контрольную сумму
-		if (check != dataRX[60]) {
-			ESP_LOGD("TCL", "Invalid checksum %x", check);
-			tclacClimate::dataShow(0,0);
-			return;
-		} else {
-			ESP_LOGD("TCL", "checksum OK %x", check);
-		}
+		//if (check != dataRX[60]) {
+		//	ESP_LOGD("TCL", "Invalid checksum %x", check);
+		//	tclacClimate::dataShow(0,0);
+		//	return;
+		//} else {
+		//	ESP_LOGD("TCL", "checksum OK %x", check);
+		//}
 		tclacClimate::dataShow(0,0);
 		// Прочитав все из буфера приступаем к разбору данных
 		tclacClimate::readData();
@@ -98,6 +98,7 @@ void tclacClimate::update() {
 	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 
+	this->esphome::uart::UARTDevice::write_array(polltwo, sizeof(polltwo));
 	//ESP_LOGD("TCL", "chek status sended");
 
 	tclacClimate::dataShow(1,0);
