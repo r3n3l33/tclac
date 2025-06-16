@@ -18,7 +18,7 @@ namespace tclac {
 
 #define SET_TEMP_MASK	0b00001111
 
-#define MODE_POS		7
+#define MODE_POS		34
 #define MODE_MASK		0b00111111
 
 #define MODE_AUTO		0b00110101
