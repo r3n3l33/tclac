@@ -49,7 +49,7 @@ void tclacClimate::setup() {
 void tclacClimate::loop()  {
 	if (esphome::uart::UARTDevice::available() > 0) {
 		dataShow(0, true);
-		dataRX = {0};
+		memset(dataRX, 0, sizeof(dataRX));
 		dataRX[0] = esphome::uart::UARTDevice::read();
 		// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
 		if (dataRX[0] != 0xBB) {
@@ -81,7 +81,7 @@ void tclacClimate::loop()  {
 
 		byte check = getChecksum(dataRX, sizeof(dataRX));
 
-		raw = getHex(dataRX, sizeof(dataRX));
+		auto raw = getHex(dataRX, sizeof(dataRX));
 		
 		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
