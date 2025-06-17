@@ -114,7 +114,13 @@ void tclacClimate::readData() {
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 	current_temperature = float((dataRX[37] << 8 | (dataRX[36]))*0.001);
-	auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
+	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
+
+	for (int abc = 5; abc < 60; abc++){
+		ESP_LOGD("TCL", "TEMP %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
+		ESP_LOGD("TCL", "TEMPINV %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
+	}
+
 	this->current_temperature = current_temperature;
 	//target_temperature = 20;
 
