@@ -112,7 +112,7 @@ void tclacClimate::readData() {
 	
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
-	current_temperature = float((dataRX[37] << 8 | (dataRX[36]))*0.002);
+	current_temperature = float((dataRX[37] << 8 | (dataRX[36]))*0.001);
 	//current_temperature = float((( (dataRX[36] << 8) | dataRX[37] ) / 374 - 32)/1.8);
 	this->current_temperature = current_temperature;
 	target_temperature = 20;
