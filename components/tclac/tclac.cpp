@@ -40,8 +40,8 @@ ClimateTraits tclacClimate::traits() {
 
 void tclacClimate::setup() {
 
-	this->target_temperature_set = 20;
-	this->target_temperature = 20;
+	target_temperature_set = 20;
+	target_temperature = 20;
 #ifdef CONF_RX_LED
 	this->rx_led_pin_->setup();
 	this->rx_led_pin_->digital_write(false);
@@ -294,8 +294,8 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
-		this->target_temperature_set = 111 - (int)call.get_target_temperature().value();
-		this->target_temperature = 111 - (int)call.get_target_temperature().value();
+		target_temperature_set = (int)call.get_target_temperature().value();
+		target_temperature = target_temperature_set;
 	} //else {
 		//target_temperature_set = 111 - (int)target_temperature;
 	//}
@@ -323,7 +323,7 @@ void tclacClimate::takeControl() {
 		switch_preset = preset.value();
 		switch_fan_mode = fan_mode.value();
 		switch_swing_mode = swing_mode;
-		target_temperature_set = 111 - (int)target_temperature;
+		target_temperature_set = (int)target_temperature;
 	}
 	
 	// Включаем или отключаем пищалку в зависимости от переключателя в настройках
@@ -579,7 +579,7 @@ void tclacClimate::takeControl() {
 	}
 
 	// Установка температуры
-	dataTX[9] = this->target_temperature_set;
+	dataTX[9] = 111 - target_temperature_set;
 		
 	// Собираем массив байт для отправки в кондиционер
 	dataTX[0] = 0xBB;	//стартовый байт заголовка
