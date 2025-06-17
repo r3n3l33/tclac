@@ -25,7 +25,11 @@ ClimateTraits tclacClimate::traits() {
 	traits.set_supported_swing_modes(this->supported_swing_modes_);
 	
 	traits.add_supported_mode(climate::CLIMATE_MODE_OFF);			// Выключенный режим кондиционера доступен всегда
-	traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);			// Автоматический режим кондиционера тоже
+	traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);			// Выключенный режим кондиционера доступен всегда
+	traits.add_supported_mode(climate::CLIMATE_MODE_COOL);			// Выключенный режим кондиционера доступен всегда
+	traits.add_supported_mode(climate::CLIMATE_MODE_HEAT);			// Выключенный режим кондиционера доступен всегда
+	traits.add_supported_mode(climate::CLIMATE_MODE_DRY);			// Выключенный режим кондиционера доступен всегда
+	traits.add_supported_mode(climate::CLIMATE_MODE_FAN_ONLY);			// Автоматический режим кондиционера тоже
 	traits.add_supported_fan_mode(climate::CLIMATE_FAN_AUTO);		// Автоматический режим вентилятора доступен всегда
 	traits.add_supported_swing_mode(climate::CLIMATE_SWING_OFF);	// Выключенный режим качания заслонок доступен всегда
 	traits.add_supported_preset(ClimatePreset::CLIMATE_PRESET_NONE);// На всякий случай без предустановок
@@ -37,6 +41,7 @@ ClimateTraits tclacClimate::traits() {
 void tclacClimate::setup() {
 
 	this->target_temperature_set = 20;
+	this->target_temperature = 20;
 #ifdef CONF_RX_LED
 	this->rx_led_pin_->setup();
 	this->rx_led_pin_->digital_write(false);
@@ -290,6 +295,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
 		this->target_temperature_set = 111 - (int)call.get_target_temperature().value();
+		this->taget_temperature = this->target_temperature_set;
 	} //else {
 		//target_temperature_set = 111 - (int)target_temperature;
 	//}
