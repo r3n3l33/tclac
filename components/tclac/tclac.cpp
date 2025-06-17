@@ -296,16 +296,16 @@ void tclacClimate::control(const ClimateCall &call) {
 	if (call.get_preset().has_value()){
 		switch_preset = call.get_preset().value();
 
-		switch(switch_preset)
-		case 0:
-			preset = climate::CLIMATE_PRESET_NONE;
-		case 5:
-			preset = climate::CLIMATE_PRESET_ECO;
-		case 6:
-			preset = climate::CLIMATE_PRESET_SLEEP;
-		case 4:
-			preset = climate::CLIMATE_PRESET_COMFORT;
-
+		switch (switch_preset){
+			case 0:
+				preset = climate::CLIMATE_PRESET_NONE;
+			case 5:
+				preset = climate::CLIMATE_PRESET_ECO;
+			case 6:
+				preset = climate::CLIMATE_PRESET_SLEEP;
+			case 4:
+				preset = climate::CLIMATE_PRESET_COMFORT;
+		}
 	} //else {
 		//switch_preset = preset.value();
 	//}
