@@ -251,7 +251,7 @@ void tclacClimate::readData() {
 	} else {
 		// Если кондиционер выключен, то все режимы показываются, как выключенные
 		mode = climate::CLIMATE_MODE_OFF;
-		//fan_mode = climate::CLIMATE_FAN_OFF;
+		fan_mode = climate::CLIMATE_FAN_OFF;
 		swing_mode = climate::CLIMATE_SWING_OFF;
 		preset = ClimatePreset::CLIMATE_PRESET_NONE;
 	}
@@ -265,7 +265,27 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов работы кондиционера
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
-		set_fan_mode_(switch_climate_mode);
+
+		switch (switch_climate_mode) {
+			case 6:
+				mode = climate::CLIMATE_MODE_AUTO;
+				break;
+			case 2:
+				mode = climate::CLIMATE_MODE_COOL;
+				break;
+			case 5:
+				mode = climate::CLIMATE_MODE_DRY;
+				break;
+			case 4:
+				mode = climate::CLIMATE_MODE_FAN_ONLY;
+				break;
+			case 3:
+				mode = climate::CLIMATE_MODE_HEAT;
+				break;
+			default:
+				mode = climate::CLIMATE_MODE_OFF;
+		}
+
 		ESP_LOGD("TCL", "Get MODE %i from call", (int) mode);
 	} //else {
 		//switch_climate_mode = mode;
@@ -275,7 +295,21 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя предустановок кондиционера
 	if (call.get_preset().has_value()){
 		switch_preset = call.get_preset().value();
-		set_preset_(switch_preset);
+
+		switch(switch_preset)
+		case 0:
+			preset = climate::CLIMATE_PRESET_NONE;
+			break;
+		case 5:
+			preset = climate::CLIMATE_PRESET_ECO;
+			break;
+		case 6:
+			preset = climate::CLIMATE_PRESET_SLEEP;
+			break;
+		case 4:
+			preset = climate::CLIMATE_PRESET_COMFORT;
+			break;
+
 	} //else {
 		//switch_preset = preset.value();
 	//}
@@ -283,7 +317,33 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов вентилятора
 	if (call.get_fan_mode().has_value()){
 		switch_fan_mode = call.get_fan_mode().value();
-		set_fan_mode_(switch_fan_mode);
+
+		if (mode != climate::CLIMATE_MODE_OFF){
+			switch (switch_fan_mode) {
+				case 2:
+					fan_mode = climate::CLIMATE_FAN_AUTO;
+					break;
+				case 3:
+					fan_mode = climate::CLIMATE_FAN_LOW;
+					break;
+				case 6:
+					fan_mode = climate::CLIMATE_FAN_MIDDLE;
+					break;
+				case 4:
+					fan_mode = climate::CLIMATE_FAN_MEDIUM;
+					break;
+				case 5:
+					fan_mode = climate::CLIMATE_FAN_HIGH;
+					break;
+				case 7:
+					fan_mode = climate::CLIMATE_FAN_FOCUS;
+					break;
+				default:
+					fan_mode = climate::CLIMATE_FAN_AUTO;
+			}
+		} else {
+			fan_mode = climate::CLIMATE_FAN_OFF;
+		}
 	} //else {
 	//	switch_fan_mode = fan_mode.value();
 	//}
@@ -291,7 +351,24 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов качания заслонок
 	if (call.get_swing_mode().has_value()){
 		switch_swing_mode = call.get_swing_mode().value();
-		swing_mode = static_cast<climate::ClimateSwingMode>(switch_swing_mode);
+
+		switch (switch_swing_mode) {
+			case 0: 
+				swing_mode = climate::CLIMATE_SWING_OFF;
+				break;
+			case 3:
+				swing_mode = climate::CLIMATE_SWING_HORIZONTAL;
+				break;
+			case 2:
+				swing_mode = climate::CLIMATE_SWING_VERTICAL;
+				break;
+			case 1:
+				swing_mode = climate::CLIMATE_SWING_BOTH;
+				break;
+			default:
+				swing_mode = climate::CLIMATE_SWING_OFF;
+		}
+
 	} //else {
 		// А если в переключателе пусто- заполняем значением из последнего опроса состояния. Типа, ничего не поменялось.
 		//switch_swing_mode = swing_mode;
