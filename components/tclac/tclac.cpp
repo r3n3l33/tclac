@@ -113,30 +113,8 @@ void tclacClimate::readData() {
 	
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
-	current_temperature = float((dataRX[37] << 8 | (dataRX[36]))*0.001);
+	current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
 	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
-
-	int abc = 29;
-	ESP_LOGD("TCL", "TEMP       %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
-	ESP_LOGD("TCL", "TEMPINV    %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
-	ESP_LOGD("TCL", "ORGTEMP    %i %i: %f ", abc, abc+1, float((( (dataRX[abc] << 8) | dataRX[abc+1] ) / 374 - 32)/1.8));
-	ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
-	abc = 35;
-	ESP_LOGD("TCL", "TEMP       %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
-	ESP_LOGD("TCL", "TEMPINV    %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
-	ESP_LOGD("TCL", "ORGTEMP    %i %i: %f ", abc, abc+1, float((( (dataRX[abc] << 8) | dataRX[abc+1] ) / 374 - 32)/1.8));
-	ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
-	abc = 45;
-	ESP_LOGD("TCL", "TEMP       %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
-	ESP_LOGD("TCL", "TEMPINV    %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
-	ESP_LOGD("TCL", "ORGTEMP    %i %i: %f ", abc, abc+1, float((( (dataRX[abc] << 8) | dataRX[abc+1] ) / 374 - 32)/1.8));
-	ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
-	abc = 51;
-	ESP_LOGD("TCL", "TEMP       %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
-	ESP_LOGD("TCL", "TEMPINV    %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
-	ESP_LOGD("TCL", "ORGTEMP    %i %i: %f ", abc, abc+1, float((( (dataRX[abc] << 8) | dataRX[abc+1] ) / 374 - 32)/1.8));
-	ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
-
 
 	//this->current_temperature = current_temperature;
 	//target_temperature = 20;
@@ -144,7 +122,7 @@ void tclacClimate::readData() {
 	//this->target_temperature = target_temperature_set;
 
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
-	target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 
 	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature2);
@@ -174,7 +152,7 @@ void tclacClimate::readData() {
 				mode = climate::CLIMATE_MODE_HEAT;
 				break;
 			default:
-				mode = climate::CLIMATE_MODE_AUTO;
+				mode = climate::CLIMATE_MODE_OFF;
 		}
 
 

@@ -26,9 +26,10 @@ namespace tclac {
 #define MODE_DRY		0b00110011
 #define MODE_FAN_ONLY	0b00110010
 #define MODE_HEAT		0b00110100
+#define MODE_OFF		0b00000000
 
-#define FAN_SPEED_POS	8
-#define FAN_QUIET_POS	33
+#define FAN_SPEED_POS	35
+#define FAN_QUIET_POS	36
 
 #define FAN_AUTO		0b10000000	//auto
 #define FAN_QUIET		0x80		//silent
