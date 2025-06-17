@@ -117,8 +117,10 @@ void tclacClimate::readData() {
 	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
 
 	for (int abc = 5; abc < 60; abc++){
-		ESP_LOGD("TCL", "TEMP %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
-		ESP_LOGD("TCL", "TEMPINV %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
+		ESP_LOGD("TCL", "TEMP       %i %i: %f ", abc, abc+1, float((dataRX[abc] << 8 | (dataRX[abc+1]))*0.001));
+		ESP_LOGD("TCL", "TEMPINV    %i %i: %f ", abc, abc+1, float((dataRX[abc] | (dataRX[abc+1] << 8))*0.001));
+		ESP_LOGD("TCL", "ORGTEMP    %i %i: %f ", abc, abc+1, float((( (dataRX[abc] << 8) | dataRX[abc+1] ) / 374 - 32)/1.8));
+		ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
 	}
 
 	this->current_temperature = current_temperature;
