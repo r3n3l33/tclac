@@ -265,7 +265,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
 		mode = static_cast<climate::ClimateMode>(switch_climate_mode);
-		ESP_LOGD("TCL", "Get MODE %s from call", mode.value());
+		ESP_LOGD("TCL", "Get MODE %s from call", mode);
 	} //else {
 		//switch_climate_mode = mode;
 		//ESP_LOGD("TCL", "Get MODE from AC");
