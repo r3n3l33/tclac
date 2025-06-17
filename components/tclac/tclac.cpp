@@ -130,7 +130,7 @@ void tclacClimate::readData() {
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 
 	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
-	ESP_LOGD("TCL", "TEMP: %f ", current_temperature2);
+	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature2);
 
 
 	if (dataRX[MODE_POS] & ( 1 << 4)) {
