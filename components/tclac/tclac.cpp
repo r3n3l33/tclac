@@ -42,6 +42,7 @@ void tclacClimate::setup() {
 
 	target_temperature_set = 20;
 	target_temperature = 20;
+	restore_state_();
 #ifdef CONF_RX_LED
 	this->rx_led_pin_->setup();
 	this->rx_led_pin_->digital_write(false);
@@ -264,7 +265,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов работы кондиционера
 	if (call.get_mode().has_value()){
 		switch_climate_mode = call.get_mode().value();
-		mode = static_cast<climate::ClimateMode>(switch_climate_mode);
+		set_fan_mode_(switch_climate_mode);
 		ESP_LOGD("TCL", "Get MODE %i from call", (int) mode);
 	} //else {
 		//switch_climate_mode = mode;
@@ -274,7 +275,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя предустановок кондиционера
 	if (call.get_preset().has_value()){
 		switch_preset = call.get_preset().value();
-		preset = static_cast<climate::ClimatePreset>(switch_preset);
+		set_preset_(switch_preset);
 	} //else {
 		//switch_preset = preset.value();
 	//}
@@ -282,7 +283,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	// Запрашиваем данные из переключателя режимов вентилятора
 	if (call.get_fan_mode().has_value()){
 		switch_fan_mode = call.get_fan_mode().value();
-		fan_mode = static_cast<climate::ClimateFanMode>(switch_fan_mode);
+		set_fan_mode_(switch_fan_mode);
 	} //else {
 	//	switch_fan_mode = fan_mode.value();
 	//}
@@ -306,6 +307,7 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	is_call_control = true;
 	takeControl();
+	this->publish_state();
 	allow_take_control = true;
 }
 	
