@@ -36,6 +36,7 @@ ClimateTraits tclacClimate::traits() {
 
 void tclacClimate::setup() {
 
+	this->target_temperature_set = 20;
 #ifdef CONF_RX_LED
 	this->rx_led_pin_->setup();
 	this->rx_led_pin_->digital_write(false);
@@ -115,12 +116,12 @@ void tclacClimate::readData() {
 	current_temperature = float((dataRX[37] << 8 | (dataRX[36]))*0.001);
 	//current_temperature = float((( (dataRX[36] << 8) | dataRX[37] ) / 374 - 32)/1.8);
 	this->current_temperature = current_temperature;
-	target_temperature = 20;
+	//target_temperature = 20;
 
-	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
+	//this->target_temperature = target_temperature_set;
 
-	current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
-	target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
+	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 
 	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 
@@ -286,10 +287,10 @@ void tclacClimate::control(const ClimateCall &call) {
 	
 	// Расчет температуры
 	if (call.get_target_temperature().has_value()) {
-		target_temperature_set = 111 - (int)call.get_target_temperature().value();
-	} else {
-		target_temperature_set = 111 - (int)target_temperature;
-	}
+		this->target_temperature_set = 111 - (int)call.get_target_temperature().value();
+	} //else {
+		//target_temperature_set = 111 - (int)target_temperature;
+	//}
 	
 	is_call_control = true;
 	takeControl();
@@ -314,7 +315,7 @@ void tclacClimate::takeControl() {
 		switch_preset = preset.value();
 		switch_fan_mode = fan_mode.value();
 		switch_swing_mode = swing_mode;
-		target_temperature_set = 111 - (int)target_temperature;
+		//target_temperature_set = 111 - (int)target_temperature;
 	}
 	
 	// Включаем или отключаем пищалку в зависимости от переключателя в настройках
@@ -570,7 +571,7 @@ void tclacClimate::takeControl() {
 	}
 
 	// Установка температуры
-	dataTX[9] = target_temperature_set;
+	dataTX[9] = this->target_temperature_set;
 		
 	// Собираем массив байт для отправки в кондиционер
 	dataTX[0] = 0xBB;	//стартовый байт заголовка
