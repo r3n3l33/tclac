@@ -123,13 +123,13 @@ void tclacClimate::readData() {
 		ESP_LOGD("TCL", "ORGTEMPINV %i %i: %f ", abc, abc+1, float((( (dataRX[abc]) | dataRX[abc+1]  << 8) / 374 - 32)/1.8));
 	}
 
-	this->current_temperature = current_temperature;
+	//this->current_temperature = current_temperature;
 	//target_temperature = 20;
 
 	//this->target_temperature = target_temperature_set;
 
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
-	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
+	target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 
 	ESP_LOGD("TCL", "TEMP: %f ", current_temperature);
 	//ESP_LOGD("TCL", "TEMP: %f ", current_temperature2);
