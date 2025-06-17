@@ -299,16 +299,12 @@ void tclacClimate::control(const ClimateCall &call) {
 		switch(switch_preset)
 		case 0:
 			preset = climate::CLIMATE_PRESET_NONE;
-			break;
 		case 5:
 			preset = climate::CLIMATE_PRESET_ECO;
-			break;
 		case 6:
 			preset = climate::CLIMATE_PRESET_SLEEP;
-			break;
 		case 4:
 			preset = climate::CLIMATE_PRESET_COMFORT;
-			break;
 
 	} //else {
 		//switch_preset = preset.value();
@@ -322,22 +318,16 @@ void tclacClimate::control(const ClimateCall &call) {
 			switch (switch_fan_mode) {
 				case 2:
 					fan_mode = climate::CLIMATE_FAN_AUTO;
-					break;
 				case 3:
 					fan_mode = climate::CLIMATE_FAN_LOW;
-					break;
 				case 6:
 					fan_mode = climate::CLIMATE_FAN_MIDDLE;
-					break;
 				case 4:
 					fan_mode = climate::CLIMATE_FAN_MEDIUM;
-					break;
 				case 5:
 					fan_mode = climate::CLIMATE_FAN_HIGH;
-					break;
 				case 7:
 					fan_mode = climate::CLIMATE_FAN_FOCUS;
-					break;
 				default:
 					fan_mode = climate::CLIMATE_FAN_AUTO;
 			}
@@ -355,16 +345,12 @@ void tclacClimate::control(const ClimateCall &call) {
 		switch (switch_swing_mode) {
 			case 0: 
 				swing_mode = climate::CLIMATE_SWING_OFF;
-				break;
 			case 3:
 				swing_mode = climate::CLIMATE_SWING_HORIZONTAL;
-				break;
 			case 2:
 				swing_mode = climate::CLIMATE_SWING_VERTICAL;
-				break;
 			case 1:
 				swing_mode = climate::CLIMATE_SWING_BOTH;
-				break;
 			default:
 				swing_mode = climate::CLIMATE_SWING_OFF;
 		}
