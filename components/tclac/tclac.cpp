@@ -141,120 +141,120 @@ void tclacClimate::readData() {
 		uint8_t fanspeedswitch = FAN_SPEED_MASK & dataRX[FAN_SPEED_POS];
 		uint8_t swingmodeswitch = SWING_MODE_MASK & dataRX[SWING_POS];
 
-		switch (modeswitch) {
-			case MODE_AUTO:
-				mode = climate::CLIMATE_MODE_AUTO;
-				break;
-			case MODE_COOL:
-				mode = climate::CLIMATE_MODE_COOL;
-				break;
-			case MODE_DRY:
-				mode = climate::CLIMATE_MODE_DRY;
-				break;
-			case MODE_FAN_ONLY:
-				mode = climate::CLIMATE_MODE_FAN_ONLY;
-				break;
-			case MODE_HEAT:
-				mode = climate::CLIMATE_MODE_HEAT;
-				break;
-			default:
-				mode = climate::CLIMATE_MODE_OFF;
-		}
+		// switch (modeswitch) {
+		// 	case MODE_AUTO:
+		// 		mode = climate::CLIMATE_MODE_AUTO;
+		// 		break;
+		// 	case MODE_COOL:
+		// 		mode = climate::CLIMATE_MODE_COOL;
+		// 		break;
+		// 	case MODE_DRY:
+		// 		mode = climate::CLIMATE_MODE_DRY;
+		// 		break;
+		// 	case MODE_FAN_ONLY:
+		// 		mode = climate::CLIMATE_MODE_FAN_ONLY;
+		// 		break;
+		// 	case MODE_HEAT:
+		// 		mode = climate::CLIMATE_MODE_HEAT;
+		// 		break;
+		// 	default:
+		// 		mode = climate::CLIMATE_MODE_OFF;
+		// }
 
 
-		//OVERRIDE
+		// //OVERRIDE
 
-		switch (dataRX[MODE_POS])
-		{
-			case 0x08:
-				//auto
-					mode = climate::CLIMATE_MODE_AUTO;
-				break;
+		// switch (dataRX[MODE_POS])
+		// {
+		// 	case 0x08:
+		// 		//auto
+		// 			mode = climate::CLIMATE_MODE_AUTO;
+		// 		break;
 		
-			case 0x07:
-				//Lüfter
-					mode = climate::CLIMATE_MODE_FAN_ONLY;
-				break;
+		// 	case 0x07:
+		// 		//Lüfter
+		// 			mode = climate::CLIMATE_MODE_FAN_ONLY;
+		// 		break;
 		
-			case 0x02:
-				//Trocknen
-					mode = climate::CLIMATE_MODE_DRY;
-				break;
+		// 	case 0x02:
+		// 		//Trocknen
+		// 			mode = climate::CLIMATE_MODE_DRY;
+		// 		break;
 		
-			case 0x01:
-				//Heizen
-					mode = climate::CLIMATE_MODE_HEAT;
-				break;
+		// 	case 0x01:
+		// 		//Heizen
+		// 			mode = climate::CLIMATE_MODE_HEAT;
+		// 		break;
 		
-			case 0x03:
-				//Kühlen
-					mode = climate::CLIMATE_MODE_COOL;
-				break;
-		}
+		// 	case 0x03:
+		// 		//Kühlen
+		// 			mode = climate::CLIMATE_MODE_COOL;
+		// 		break;
+		// }
 
 
 
-		if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
-			fan_mode = climate::CLIMATE_FAN_QUIET;
-		} else if (dataRX[MODE_POS] & FAN_DIFFUSE){
-			fan_mode = climate::CLIMATE_FAN_DIFFUSE;
-		} else {
-			switch (fanspeedswitch) {
-				case FAN_AUTO:
-					fan_mode = climate::CLIMATE_FAN_AUTO;
-					break;
-				case FAN_LOW:
-					fan_mode = climate::CLIMATE_FAN_LOW;
-					break;
-				case FAN_MIDDLE:
-					fan_mode = climate::CLIMATE_FAN_MIDDLE;
-					break;
-				case FAN_MEDIUM:
-					fan_mode = climate::CLIMATE_FAN_MEDIUM;
-					break;
-				case FAN_HIGH:
-					fan_mode = climate::CLIMATE_FAN_HIGH;
-					break;
-				case FAN_FOCUS:
-					fan_mode = climate::CLIMATE_FAN_FOCUS;
-					break;
-				default:
-					fan_mode = climate::CLIMATE_FAN_AUTO;
-			}
-		}
+		// if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
+		// 	fan_mode = climate::CLIMATE_FAN_QUIET;
+		// } else if (dataRX[MODE_POS] & FAN_DIFFUSE){
+		// 	fan_mode = climate::CLIMATE_FAN_DIFFUSE;
+		// } else {
+		// 	switch (fanspeedswitch) {
+		// 		case FAN_AUTO:
+		// 			fan_mode = climate::CLIMATE_FAN_AUTO;
+		// 			break;
+		// 		case FAN_LOW:
+		// 			fan_mode = climate::CLIMATE_FAN_LOW;
+		// 			break;
+		// 		case FAN_MIDDLE:
+		// 			fan_mode = climate::CLIMATE_FAN_MIDDLE;
+		// 			break;
+		// 		case FAN_MEDIUM:
+		// 			fan_mode = climate::CLIMATE_FAN_MEDIUM;
+		// 			break;
+		// 		case FAN_HIGH:
+		// 			fan_mode = climate::CLIMATE_FAN_HIGH;
+		// 			break;
+		// 		case FAN_FOCUS:
+		// 			fan_mode = climate::CLIMATE_FAN_FOCUS;
+		// 			break;
+		// 		default:
+		// 			fan_mode = climate::CLIMATE_FAN_AUTO;
+		// 	}
+		// }
 
-		switch (swingmodeswitch) {
-			case SWING_OFF: 
-				swing_mode = climate::CLIMATE_SWING_OFF;
-				break;
-			case SWING_HORIZONTAL:
-				swing_mode = climate::CLIMATE_SWING_HORIZONTAL;
-				break;
-			case SWING_VERTICAL:
-				swing_mode = climate::CLIMATE_SWING_VERTICAL;
-				break;
-			case SWING_BOTH:
-				swing_mode = climate::CLIMATE_SWING_BOTH;
-				break;
-		}
+		// switch (swingmodeswitch) {
+		// 	case SWING_OFF: 
+		// 		swing_mode = climate::CLIMATE_SWING_OFF;
+		// 		break;
+		// 	case SWING_HORIZONTAL:
+		// 		swing_mode = climate::CLIMATE_SWING_HORIZONTAL;
+		// 		break;
+		// 	case SWING_VERTICAL:
+		// 		swing_mode = climate::CLIMATE_SWING_VERTICAL;
+		// 		break;
+		// 	case SWING_BOTH:
+		// 		swing_mode = climate::CLIMATE_SWING_BOTH;
+		// 		break;
+		// }
 		
-		// Обработка данных о пресете
-		preset = ClimatePreset::CLIMATE_PRESET_NONE;
-		if (dataRX[7] & (1 << 6)){
-			preset = ClimatePreset::CLIMATE_PRESET_ECO;
-		} else if (dataRX[9] & (1 << 2)){
-			preset = ClimatePreset::CLIMATE_PRESET_COMFORT;
-		} else if (dataRX[19] & (1 << 0)){
-			preset = ClimatePreset::CLIMATE_PRESET_SLEEP;
-		}
+		// // Обработка данных о пресете
+		// preset = ClimatePreset::CLIMATE_PRESET_NONE;
+		// if (dataRX[7] & (1 << 6)){
+		// 	preset = ClimatePreset::CLIMATE_PRESET_ECO;
+		// } else if (dataRX[9] & (1 << 2)){
+		// 	preset = ClimatePreset::CLIMATE_PRESET_COMFORT;
+		// } else if (dataRX[19] & (1 << 0)){
+		// 	preset = ClimatePreset::CLIMATE_PRESET_SLEEP;
+		// }
 		
-	} else {
+	} //else {
 		// Если кондиционер выключен, то все режимы показываются, как выключенные
-		mode = climate::CLIMATE_MODE_OFF;
-		fan_mode = climate::CLIMATE_FAN_OFF;
-		swing_mode = climate::CLIMATE_SWING_OFF;
-		preset = ClimatePreset::CLIMATE_PRESET_NONE;
-	}
+		//mode = climate::CLIMATE_MODE_OFF;
+		//fan_mode = climate::CLIMATE_FAN_OFF;
+		//swing_mode = climate::CLIMATE_SWING_OFF;
+		//preset = ClimatePreset::CLIMATE_PRESET_NONE;
+	//}
 	// Публикуем данные
 	this->publish_state();
 	allow_take_control = true;
