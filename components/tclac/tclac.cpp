@@ -60,7 +60,7 @@ void tclacClimate::loop()  {
 		dataRX[0] = esphome::uart::UARTDevice::read();
 		// Если принятый байт- не заголовок (0xBB), то просто покидаем цикл
 		if (dataRX[0] != 0xBB) {
-			ESP_LOGD("TCL", "Wrong byte %s", dataRX[0]);
+			ESP_LOGD("TCL", "Wrong byte %s", getHex(dataRX, 1));
 			dataShow(0,0);
 			return;
 		}
