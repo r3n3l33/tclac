@@ -79,27 +79,27 @@ void tclacClimate::loop()  {
 		//ESP_LOGD("TCL", "first 5 byte : %s ", raw.c_str());
 
 		// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
-		//esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
-		int c = 0;
-		while(esphome::uart::UARTDevice::available() != 0){
-			esphome::uart::UARTDevice::read_byte(&dataRX[5+c]);
-			c++;
-		}
+		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
+		//int c = 0;
+		//while(esphome::uart::UARTDevice::available() != 0){
+		//	esphome::uart::UARTDevice::read_byte(&dataRX[5+c]);
+		//	c++;
+		//}
 
 		byte check = getChecksum(dataRX, sizeof(dataRX));
 
-		//auto raw = getHex(dataRX, sizeof(dataRX));
+		auto raw = getHex(dataRX, sizeof(dataRX));
 		
-		//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
+		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
 		// Проверяем контрольную сумму
-		//if (check != dataRX[60]) {
-		//	ESP_LOGD("TCL", "Invalid checksum %x", check);
-		//	tclacClimate::dataShow(0,0);
-		//	return;
-		//} else {
-		//	ESP_LOGD("TCL", "checksum OK %x", check);
-		//}
+		if (check != dataRX[60]) {
+			ESP_LOGD("TCL", "Invalid checksum %x", check);
+			tclacClimate::dataShow(0,0);
+			return;
+		} else {
+			ESP_LOGD("TCL", "checksum OK %x", check);
+		}
 		tclacClimate::dataShow(0,0);
 		// Прочитав все из буфера приступаем к разбору данных
 		tclacClimate::readData();
