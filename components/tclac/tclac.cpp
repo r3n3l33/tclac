@@ -62,8 +62,16 @@ void tclacClimate::loop()  {
 		if (dataRX[0] != 0xBB) {
 			ESP_LOGD("TCL", "Wrong byte %s", getHex(dataRX, 1).c_str());
 			dataShow(0,0);
-			return;
-		}
+			int da = 0;
+			while(esphome::uart::UARTDevice::available() != 0 && dataRX[da] != 0xBB){
+				esphome::uart::UARTDevice::read_byte(&dataRX[da]);
+				da++;
+			}
+			
+			auto raw = getHex(dataRX, sizeof(dataRX));
+			
+			ESP_LOGD("TCL", "RXda full : %s ", raw.c_str());
+		} else {
 		// А вот если совпал заголовок (0xBB), то начинаем чтение по цепочке еще 4 байт
 		delay(5);
 		dataRX[1] = esphome::uart::UARTDevice::read();
@@ -103,6 +111,7 @@ void tclacClimate::loop()  {
 		tclacClimate::dataShow(0,0);
 		// Прочитав все из буфера приступаем к разбору данных
 		tclacClimate::readData();
+	}
 	}
 }
 
