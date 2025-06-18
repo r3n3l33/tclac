@@ -90,7 +90,7 @@ void tclacClimate::loop()  {
 
 		auto raw = getHex(dataRX, sizeof(dataRX));
 		
-		ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
+		//ESP_LOGD("TCL", "RX full : %s ", raw.c_str());
 		
 		// Проверяем контрольную сумму
 		if (check != dataRX[60]) {
