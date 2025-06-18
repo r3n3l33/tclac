@@ -108,6 +108,15 @@ void tclacClimate::loop()  {
 
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
+
+	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
+
+	for (int i=0; i < 20; i++){
+		poll[3]++;
+		this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
+		delay(500);
+	}
+
 	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
 	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 	this->esphome::uart::UARTDevice::flush();
