@@ -40,12 +40,12 @@ ClimateTraits tclacClimate::traits() {
 
 void tclacClimate::setup() {
 
-	this->esphome::uart::UARTDevice::write_array(setup1, sizeof(setup1));
-	this->esphome::uart::UARTDevice::flush();
-	this->esphome::uart::UARTDevice::write_array(setup2, sizeof(setup2));
-	this->esphome::uart::UARTDevice::flush();
-	this->esphome::uart::UARTDevice::write_array(setup3, sizeof(setup3));
-	this->esphome::uart::UARTDevice::flush();
+	//this->esphome::uart::UARTDevice::write_array(setup1, sizeof(setup1));
+	//this->esphome::uart::UARTDevice::flush();
+	//this->esphome::uart::UARTDevice::write_array(setup2, sizeof(setup2));
+	//this->esphome::uart::UARTDevice::flush();
+	//this->esphome::uart::UARTDevice::write_array(setup3, sizeof(setup3));
+	//this->esphome::uart::UARTDevice::flush();
 
 	target_temperature_set = 20;
 	target_temperature = 20;
