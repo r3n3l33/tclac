@@ -7,7 +7,9 @@
 #include "esphome.h"
 #include "esphome/core/defines.h"
 #include "tclac.h"
-#include <dht.h>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
 
 namespace esphome{
 namespace tclac{

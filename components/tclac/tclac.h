@@ -12,7 +12,9 @@
 #include "esphome/core/defines.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/climate/climate.h"
-#include <DHT.h> // Include DHT library
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
 
 namespace esphome {
 namespace tclac {
