@@ -14,7 +14,7 @@ external_components:
 # Конфигурация ESPHome
 esphome:
   libraries:
-    - adafruit/Adafruit DHT Unified@^1.0.0
+    - adafruit/DHT sensor library@^1.4.6
     - adafruit/Adafruit Unified Sensor@^1.1.15
   name: ${device_name}
   min_version: 2023.3.0
