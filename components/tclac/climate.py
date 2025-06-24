@@ -1,9 +1,18 @@
 ﻿from esphome import automation, pins
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import climate, uart
+from esphome.components import climate, uart, sensor
 from esphome.const import (
+    CONF_HUMIDITY,
     CONF_ID,
+    CONF_MODEL,
+    CONF_PIN,
+    CONF_TEMPERATURE,
+    STATE_CLASS_MEASUREMENT,
+    UNIT_CELSIUS,
+    UNIT_PERCENT,
+    DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_HUMIDITY,
     CONF_LEVEL,
     CONF_BEEPER,
     CONF_VISUAL,
@@ -49,6 +58,8 @@ DHT_MODELS = {
     "SI7021": DHTModel.DHT_MODEL_SI7021,
     "DHT22_TYPE2": DHTModel.DHT_MODEL_DHT22_TYPE2,
 }
+DHT = dht_ns.class_("DHT", cg.PollingComponent)
+
 
 CONF_DISPLAY = "show_display"
 CONF_FORCE_MODE = "force_mode"
@@ -187,6 +198,7 @@ CONFIG_SCHEMA = cv.All(
     .extend(cv.COMPONENT_SCHEMA),
     validate_visual,
 )
+
 
 ForceOnAction = tclac_ns.class_("ForceOnAction", automation.Action)
 ForceOffAction = tclac_ns.class_("ForceOffAction", automation.Action)
