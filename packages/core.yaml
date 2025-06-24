@@ -320,4 +320,3 @@ climate:
   - platform: tclac
     name: "${device_name} Climate"
     id: ${device_name}climate
-    sensor: ${temp_sensor}
