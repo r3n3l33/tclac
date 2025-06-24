@@ -352,5 +352,5 @@ def to_code(config):
         cg.add(var.set_dht_pin(dht_pin))
     if CONF_DHT_TYPE in config:
         cg.add_define("CONF_DHT_TYPE")
-        dht_type = yield cg.string(config[CONF_DHT_TYPE])
+        dht_type = yield cg.get_variable(config[CONF_DHT_TYPE])
         cg.add(var.set_dht_type(dht_type))
