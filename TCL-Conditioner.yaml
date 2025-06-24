@@ -24,6 +24,9 @@ substitutions:
 # Falls du keine LEDs verwenden möchtest, kannst du hier beliebige Werte eintragen.
   receive_led: GPIO6
   transmit_led: GPIO4
+# DHT Temperatursensor config
+  dht_pin: GPIO35
+  dht_type: DHT11
 
 # Eingebundene Dateien – werden automatisch aus dem Internet geladen und aktualisiert.
 # Kommentiere die gewünschten Optionen ein.
@@ -33,7 +36,7 @@ substitutions:
 # Alle eingetragenen Zeilen müssen exakt auf dieser Einrückungsebene stehen – sonst kommt es zu Fehlern!
 packages:
   remote_package:
-    url: https://github.com/sorz2122/tclac.git
+    url: https://github.com/Kannnix2005/tclac.git
     ref: master
     files:
     # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Probleme!

@@ -7,9 +7,11 @@
 #include "esphome.h"
 #include "esphome/core/defines.h"
 #include "tclac.h"
+#include <DHT.h>
 
 namespace esphome{
 namespace tclac{
+
 
 
 ClimateTraits tclacClimate::traits() {
@@ -17,6 +19,11 @@ ClimateTraits tclacClimate::traits() {
 
 	traits.set_supports_action(false);
 	traits.set_supports_current_temperature(true);
+
+	#ifdef DHTPIN
+		traits.set_supports_current_humidity(true);
+	#endif
+
 	traits.set_supports_two_point_target_temperature(false);
 
 	traits.set_supported_modes(this->supported_modes_);
@@ -39,13 +46,7 @@ ClimateTraits tclacClimate::traits() {
 
 
 void tclacClimate::setup() {
-
-	//this->esphome::uart::UARTDevice::write_array(setup1, sizeof(setup1));
-	//this->esphome::uart::UARTDevice::flush();
-	//this->esphome::uart::UARTDevice::write_array(setup2, sizeof(setup2));
-	//this->esphome::uart::UARTDevice::flush();
-	//this->esphome::uart::UARTDevice::write_array(setup3, sizeof(setup3));
-	//this->esphome::uart::UARTDevice::flush();
+	dht.begin();
 
 	target_temperature_set = 20;
 	target_temperature = 20;
@@ -87,11 +88,6 @@ void tclacClimate::loop()  {
 
 		// Из первых 5 байт нам нужен пятый- он содержит длину сообщения
 		esphome::uart::UARTDevice::read_array(dataRX+5, dataRX[4]+1);
-		//int c = 0;
-		//while(esphome::uart::UARTDevice::available() != 0){
-		//	esphome::uart::UARTDevice::read_byte(&dataRX[5+c]);
-		//	c++;
-		//}
 
 		byte check = getChecksum(dataRX, sizeof(dataRX));
 
@@ -116,22 +112,28 @@ void tclacClimate::loop()  {
 void tclacClimate::update() {
 	tclacClimate::dataShow(1,1);
 	this->esphome::uart::UARTDevice::write_array(poll, sizeof(poll));
-	//const char* raw = tclacClimate::getHex(poll, sizeof(poll)).c_str();
 	this->esphome::uart::UARTDevice::flush();
-	//this->esphome::uart::UARTDevice::write_array(poll2, sizeof(poll2));
-	//this->esphome::uart::UARTDevice::flush();
-	//this->esphome::uart::UARTDevice::write_array(poll3, sizeof(poll3));
-	//this->esphome::uart::UARTDevice::flush();
-
 	tclacClimate::dataShow(1,0);
+
+	// Read temperature and humidity from DHT sensor
+	humidity_dht = dht.readHumidity();
+	temperature_dht = dht.readTemperature();
+	if (isnan(humidity_dht) || isnan(temperature_dht)) {
+		ESP_LOGD("TCL", "Failed to read from DHT sensor!");
+	}
 }
 
 void tclacClimate::readData() {
 	
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
-	current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
-	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
+
+	if(!isnan(temperature_dht)){
+		current_temperature = temperature_dht;
+	} else {
+		current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
+	}
+
 
 	//this->current_temperature = current_temperature;
 	//target_temperature = 20;
@@ -857,6 +859,5 @@ void tclacClimate::set_supported_swing_modes(const std::set<climate::ClimateSwin
 void tclacClimate::set_supported_presets(const std::set<climate::ClimatePreset> &presets) {
   this->supported_presets_ = presets;
 }
-
 }
 }

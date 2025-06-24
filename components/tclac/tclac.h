@@ -12,6 +12,7 @@
 #include "esphome/core/defines.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/climate/climate.h"
+#include <DHT.h> // Include DHT library
 
 namespace esphome {
 namespace tclac {
@@ -47,6 +48,8 @@ namespace tclac {
 #define SWING_VERTICAL		0b01000000
 #define SWING_BOTH			0b01100000
 #define SWING_MODE_MASK		0b01100000
+
+DHT dht(DHTPIN, DHTTYPE);
 
 using climate::ClimateCall;
 using climate::ClimateMode;
@@ -115,6 +118,9 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		int target_temperature_set = 0;
 		uint8_t switch_climate_mode = 0;
 		bool allow_take_control = false;
+
+		float humidity_dht = 0;
+		float temperature_dht = 0;
 		
 		esphome::climate::ClimateTraits traits_;
 		
@@ -152,6 +158,8 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 	protected:
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
+		GPIOPin *dht_pin_;
+		DHTType *dht_type_;
 		ClimateTraits traits() override;
 		std::set<ClimateMode> supported_modes_{};
 		std::set<ClimatePreset> supported_presets_{};

@@ -26,10 +26,12 @@ substitutions:
   uart_tx: GPIO3
   receive_led: GPIO2
   transmit_led: GPIO2
+  dht_pin: GPIO35
+  dht_type: DHT11
 
 packages:
   remote_package:
-    url: https://github.com/sorz2122/tclac.git     
+    url: https://github.com/Kannnix2005/tclac.git     
     ref: master
     files:
       - packages/core.yaml
