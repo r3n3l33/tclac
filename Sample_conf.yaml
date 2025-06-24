@@ -27,7 +27,6 @@ substitutions:
   receive_led: GPIO2
   transmit_led: GPIO2
   dht_pin: GPIO35
-  dht_type: DHT11
 
 packages:
   remote_package:

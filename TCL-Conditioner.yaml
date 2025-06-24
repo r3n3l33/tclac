@@ -26,7 +26,6 @@ substitutions:
   transmit_led: GPIO4
 # DHT Temperatursensor config
   dht_pin: GPIO35
-  dht_type: DHT11
 
 # Eingebundene Dateien – werden automatisch aus dem Internet geladen und aktualisiert.
 # Kommentiere die gewünschten Optionen ein.

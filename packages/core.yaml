@@ -324,4 +324,3 @@ climate:
     name: "${device_name} Climate"
     id: ${device_name}climate
     dht_pin: ${dht_pin}
-    dht_type: ${dht_type}

@@ -151,7 +151,6 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_rx_led_pin(GPIOPin *rx_led_pin);
 		void set_tx_led_pin(GPIOPin *tx_led_pin);
 		void set_dht_pin(GPIOPin *dht_pin);
-		void set_dht_type(DHTModel dht_type);
 		void sendData(byte * message, byte size);
 		void set_module_display_state(bool state);
 		static String getHex(byte *message, byte size);
@@ -170,7 +169,6 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
 		GPIOPin *dht_pin_;
-		DHTModel *dht_type_;
 		ClimateTraits traits() override;
 		std::set<ClimateMode> supported_modes_{};
 		std::set<ClimatePreset> supported_presets_{};

@@ -46,10 +46,10 @@ ClimateTraits tclacClimate::traits() {
 	return traits;
 }
 
-
+#define DHTTYPE DHT11
 void tclacClimate::setup() {
 	#ifdef DHTPIN
-		DHT dht(this->dht_pin_, this->dht_type_);
+		this->dht = DHT dht(this->dht_pin_, DHTTYPE);
 		this->dht.begin();
 	#endif
 
@@ -814,11 +814,6 @@ void tclacClimate::set_tx_led_pin(GPIOPin *tx_led_pin) {
 #ifdef CONF_DHT_PIN
 void tclacClimate::set_dht_pin(GPIOPin *dht_pin) {
 	this->dht_pin_ = dht_pin;
-}
-#endif
-#ifdef CONF_DHT_TYPE
-void tclacClimate::set_dht_type(DHTModel dht_type) {
-	this->dht_type_ = dht_type;
 }
 #endif
 // Получение состояния светодиодов связи модуля
