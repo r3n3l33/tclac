@@ -49,8 +49,6 @@ namespace tclac {
 #define SWING_BOTH			0b01100000
 #define SWING_MODE_MASK		0b01100000
 
-DHT dht(DHTPIN, DHTTYPE);
-
 using climate::ClimateCall;
 using climate::ClimateMode;
 using climate::ClimatePreset;
@@ -161,7 +159,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
 		GPIOPin *dht_pin_;
-		DHTType *dht_type_;
+		DHTModel *dht_type_;
 		ClimateTraits traits() override;
 		std::set<ClimateMode> supported_modes_{};
 		std::set<ClimatePreset> supported_presets_{};

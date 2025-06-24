@@ -46,7 +46,10 @@ ClimateTraits tclacClimate::traits() {
 
 
 void tclacClimate::setup() {
-	dht.begin();
+	#ifdef DHTTYPE, DHTPIN
+		DHT dht(this->dht_pin_, this->dht_type_);
+		this->dht.begin();
+	#endif
 
 	target_temperature_set = 20;
 	target_temperature = 20;
