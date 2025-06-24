@@ -48,6 +48,18 @@ namespace tclac {
 #define SWING_BOTH			0b01100000
 #define SWING_MODE_MASK		0b01100000
 
+
+enum DHTModel {
+	DHT_MODEL_AUTO_DETECT = 0,
+	DHT_MODEL_DHT11,
+	DHT_MODEL_DHT22,
+	DHT_MODEL_AM2302,
+	DHT_MODEL_RHT03,
+	DHT_MODEL_SI7021,
+	DHT_MODEL_DHT22_TYPE2
+  };
+  
+
 using climate::ClimateCall;
 using climate::ClimateMode;
 using climate::ClimatePreset;
@@ -139,7 +151,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_rx_led_pin(GPIOPin *rx_led_pin);
 		void set_tx_led_pin(GPIOPin *tx_led_pin);
 		void set_dht_pin(GPIOPin *dht_pin);
-		void set_dht_type(DHT::DHTModel dht_type);
+		void set_dht_type(DHTModel dht_type);
 		void sendData(byte * message, byte size);
 		void set_module_display_state(bool state);
 		static String getHex(byte *message, byte size);

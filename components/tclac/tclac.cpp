@@ -817,7 +817,7 @@ void tclacClimate::set_dht_pin(GPIOPin *dht_pin) {
 }
 #endif
 #ifdef CONF_DHT_TYPE
-void tclacClimate::set_dht_type(DHT::DHTModel dht_type) {
+void tclacClimate::set_dht_type(DHTModel dht_type) {
 	this->dht_type_ = dht_type;
 }
 #endif
