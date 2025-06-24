@@ -46,7 +46,7 @@ ClimateTraits tclacClimate::traits() {
 
 
 void tclacClimate::setup() {
-	#ifdef DHTTYPE, DHTPIN
+	#ifdef DHTPIN
 		DHT dht(this->dht_pin_, this->dht_type_);
 		this->dht.begin();
 	#endif
@@ -119,10 +119,12 @@ void tclacClimate::update() {
 	tclacClimate::dataShow(1,0);
 
 	// Read temperature and humidity from DHT sensor
-	humidity_dht = dht.readHumidity();
-	temperature_dht = dht.readTemperature();
-	if (isnan(humidity_dht) || isnan(temperature_dht)) {
-		ESP_LOGD("TCL", "Failed to read from DHT sensor!");
+	if (this->dht){
+		humidity_dht = this->dht.readHumidity();
+		temperature_dht = this->dht.readTemperature();
+		if (isnan(humidity_dht) || isnan(temperature_dht)) {
+			ESP_LOGD("TCL", "Failed to read from DHT sensor!");
+		}
 	}
 }
 

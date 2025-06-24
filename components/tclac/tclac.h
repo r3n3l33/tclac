@@ -159,7 +159,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
 		GPIOPin *dht_pin_;
-		DHTModel *dht_type_;
+		DHT::DHTModel *dht_type_;
 		ClimateTraits traits() override;
 		std::set<ClimateMode> supported_modes_{};
 		std::set<ClimatePreset> supported_presets_{};
