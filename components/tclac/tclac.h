@@ -140,7 +140,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_rx_led_pin(GPIOPin *rx_led_pin);
 		void set_tx_led_pin(GPIOPin *tx_led_pin);
 		void set_dht_pin(GPIOPin *dht_pin);
-		void set_dht_type(esphome::dht::DHTModel dht_type);
+		void set_dht_type(DHT::DHTModel dht_type);
 		void sendData(byte * message, byte size);
 		void set_module_display_state(bool state);
 		static String getHex(byte *message, byte size);
