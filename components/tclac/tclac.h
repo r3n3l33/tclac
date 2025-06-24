@@ -132,6 +132,8 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		float temperature_dht = 0;
 		
 		esphome::climate::ClimateTraits traits_;
+
+		DHT dht;
 		
 	public:
 
