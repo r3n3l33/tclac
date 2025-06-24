@@ -803,6 +803,17 @@ void tclacClimate::set_tx_led_pin(GPIOPin *tx_led_pin) {
 	this->tx_led_pin_ = tx_led_pin;
 }
 #endif
+
+#ifdef CONF_DHT_PIN
+void tclacClimate::set_dht_pin(GPIOPin *dht_pin) {
+	this->dht_pin_ = dht_pin;
+}
+#endif
+#ifdef CONF_DHT_TYPE
+void tclacClimate::set_dht_type(esphome::dht::DHTModel dht_type) {
+	this->dht_type_ = dht_type;
+}
+#endif
 // Получение состояния светодиодов связи модуля
 void tclacClimate::set_module_display_state(bool state) {
 	this->module_display_status_ = state;

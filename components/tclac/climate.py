@@ -37,6 +37,19 @@ CONF_RX_LED = "rx_led"
 CONF_TX_LED = "tx_led"
 CONF_DHT_PIN = "dht_pin"
 CONF_DHT_TYPE = "dht_type"
+
+dht_ns = cg.esphome_ns.namespace("dht")
+DHTModel = dht_ns.enum("DHTModel")
+DHT_MODELS = {
+    "AUTO_DETECT": DHTModel.DHT_MODEL_AUTO_DETECT,
+    "DHT11": DHTModel.DHT_MODEL_DHT11,
+    "DHT22": DHTModel.DHT_MODEL_DHT22,
+    "AM2302": DHTModel.DHT_MODEL_AM2302,
+    "RHT03": DHTModel.DHT_MODEL_RHT03,
+    "SI7021": DHTModel.DHT_MODEL_SI7021,
+    "DHT22_TYPE2": DHTModel.DHT_MODEL_DHT22_TYPE2,
+}
+
 CONF_DISPLAY = "show_display"
 CONF_FORCE_MODE = "force_mode"
 CONF_VERTICAL_AIRFLOW = "vertical_airflow"
@@ -155,7 +168,9 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_RX_LED): pins.gpio_output_pin_schema,
             cv.Optional(CONF_TX_LED): pins.gpio_output_pin_schema,
             cv.Optional(CONF_DHT_PIN): pins.gpio_output_pin_schema,
-            cv.Optional(CONF_DHT_TYPE): cv.string,
+            cv.Optional(CONF_DHT_TYPE): cv.enum(
+                DHT_MODELS, upper=True, space="_"
+            ),
             cv.Optional(CONF_FORCE_MODE, default=True): cv.boolean,
             cv.Optional(CONF_MODULE_DISPLAY, default=True): cv.boolean,
             cv.Optional(CONF_VERTICAL_AIRFLOW, default="LAST"): cv.ensure_list(cv.enum(AIRFLOW_VERTICAL_DIRECTION_OPTIONS, upper=True)),
@@ -350,7 +365,5 @@ def to_code(config):
         cg.add_define("CONF_DHT_PIN")
         dht_pin = yield cg.gpio_pin_expression(config[CONF_DHT_PIN])
         cg.add(var.set_dht_pin(dht_pin))
-    if CONF_DHT_TYPE in config:
-        cg.add_define("CONF_DHT_TYPE")
-        dht_type = yield cg.get_variable(config[CONF_DHT_TYPE])
+    if dht_type := config.get(CONF_DHT_TYPE):
         cg.add(var.set_dht_type(dht_type))
