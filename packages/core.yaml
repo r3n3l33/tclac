@@ -10,14 +10,12 @@ external_components:
       ref: master
     components: [ tclac ]
     refresh: 30s
-  - source:
-      url: https://github.com/adafruit/DHT-sensor-library.git
-      type: git
-      ref: master
-    refresh: 30s
 
 # Конфигурация ESPHome
 esphome:
+  libraries:
+    - https://github.com/adafruit/DHT-sensor-library
+
   name: ${device_name}
   min_version: 2023.3.0
   friendly_name: ${humanly_name}
