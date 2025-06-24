@@ -13,9 +13,6 @@ external_components:
 
 # Конфигурация ESPHome
 esphome:
-  libraries:
-    - https://github.com/adafruit/DHT-sensor-library
-
   name: ${device_name}
   min_version: 2023.3.0
   friendly_name: ${humanly_name}

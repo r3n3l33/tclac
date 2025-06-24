@@ -7,7 +7,7 @@
 #include "esphome.h"
 #include "esphome/core/defines.h"
 #include "tclac.h"
-#include <DHT.h>
+#include <dht.h>
 
 namespace esphome{
 namespace tclac{
