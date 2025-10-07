@@ -7,6 +7,8 @@
 #include "esphome.h"
 #include "esphome/core/defines.h"
 #include "tclac.h"
+#include <sstream>
+#include <iomanip>
 
 namespace esphome{
 namespace tclac{
