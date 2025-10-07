@@ -88,15 +88,15 @@ enum class AirflowHorizontalDirection : uint8_t {
 class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, public PollingComponent {
 
 	private:
-		byte checksum;
+		uint8_t checksum;
 		// dataTX с управлением состоит из 38 байт
-		byte dataTX[38];
+		uint8_t dataTX[38];
 		// А dataRX по прежнему из 61 байта
-		byte dataRX[61];
+		uint8_t dataRX[61];
 		// Команда запроса состояния	dataTX[0] = 0xBB;
 		
 		//byte poll[8] = {0xBB,0x00,0x01,0x0C,0x02,0x01,0x00,0xB5};
-		byte poll[8] = {0xBB,0x00,0x01,0x04,0x02,0x00,0x01,0xBD};
+		uint8_t poll[8] = {0xBB,0x00,0x01,0x04,0x02,0x00,0x01,0xBD};
 		//byte poll3[8] = {0xBB,0x00,0x01,0x09,0x02,0x04,0x00,0xB5};
 		//byte poll2[9] = {0xBB,0x00,0x01,0x0A,0x03,0x02,0x00,0x05,0xB4};
 		//byte setup3[7] = {0xBB,0x00,0x01,0x02,0x04,0x00,0xB5};
@@ -135,11 +135,11 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_force_mode_state(bool state);
 		void set_rx_led_pin(GPIOPin *rx_led_pin);
 		void set_tx_led_pin(GPIOPin *tx_led_pin);
-		void sendData(byte * message, byte size);
+		void sendData(uint8_t * message, uint8_t size);
 		void set_module_display_state(bool state);
-		static String getHex(byte *message, byte size);
+		static String getHex(uint8_t *message, uint8_t size);
 		void control(const ClimateCall &call) override;
-		static byte getChecksum(const byte * message, size_t size);
+		static uint8_t getChecksum(const uint8_t * message, size_t size);
 		void set_vertical_airflow(AirflowVerticalDirection direction);
 		void set_horizontal_airflow(AirflowHorizontalDirection direction);
 		void set_vertical_swing_direction(VerticalSwingDirection direction);
