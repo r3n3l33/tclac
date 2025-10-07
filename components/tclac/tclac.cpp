@@ -93,7 +93,7 @@ void tclacClimate::loop()  {
 		//	c++;
 		//}
 
-		byte check = getChecksum(dataRX, sizeof(dataRX));
+		uint8_t check = getChecksum(dataRX, sizeof(dataRX));
 
 		auto raw = getHex(dataRX, sizeof(dataRX));
 		
@@ -709,7 +709,7 @@ void tclacClimate::takeControl() {
 }
 
 // Отправка данных в кондиционер
-void tclacClimate::sendData(byte * message, byte size) {
+void tclacClimate::sendData(uint8_t * message, uint8_t size) {
 	tclacClimate::dataShow(1,1);
 	//Serial.write(message, size);
 	this->esphome::uart::UARTDevice::write_array(message, size);
@@ -719,19 +719,31 @@ void tclacClimate::sendData(byte * message, byte size) {
 }
 
 // Преобразование байта в читабельный формат
-String tclacClimate::getHex(byte *message, byte size) {
-	String raw;
-	for (int i = 0; i < size; i++) {
-		raw += "\n" + String(message[i]);
+String tclacClimate::getHex(uint8_t *message, uint8_t size) {
+	std::ostringstream oss;
+	// print each byte as two uppercase hex digits
+	for (uint8_t i = 0; i < size; ++i) {
+	  oss << std::hex 
+	  << std::uppercase 
+	  << std::setw(2) 
+	  << std::setfill('0') 
+	  << static_cast<int>(message[i]);
+	  if (i + 1 < size)
+	    oss << ' ';  // optional separator
 	}
-	raw.toUpperCase();
-	return raw;
+	  // grab the std::string, ensure uppercase
+	std::string s = oss.str();
+	// (oss.str() is already uppercase thanks to std::uppercase, so
+	// this transform is optional)
+	std::transform(s.begin(), s.end(), s.begin(), ::toupper);
+	// convert to esphome::String and return
+	return String(s.c_str());
 }
 
 // Вычисление контрольной суммы
-byte tclacClimate::getChecksum(const byte * message, size_t size) {
-	byte position = size - 1;
-	byte crc = 0;
+uint8_t tclacClimate::getChecksum(const uint8_t * message, size_t size) {
+	uint8_t position = size - 1;
+	uint8_t crc = 0;
 	for (int i = 0; i < position; i++)
 		crc ^= message[i];
 	return crc;
