@@ -129,11 +129,11 @@ void tclacClimate::update() {
 }
 
 void tclacClimate::readData() {
-	
+	// BBx01x00x03x37x04x00x00x00x00x00x00x00x00x00x80x36x00x23x08x00x00x00x00x00x00x00x00x00x20x66xFFx42x00x50x21x21x21x00x00x80x00x00x00x00xE9x00x00x00x54x40x03x23x00x00x7Ax00x00x00x00xBA
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
-	current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
-	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
+	//current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
+	auto current_temperature = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
 
 	//this->current_temperature = current_temperature;
 	//target_temperature = 20;
