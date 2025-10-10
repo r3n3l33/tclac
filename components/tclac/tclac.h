@@ -175,6 +175,6 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		HorizontalSwingDirection horizontal_swing_direction_;
 };
 }
-}
+
 
 #endif //TCL_ESP_TCL_H
