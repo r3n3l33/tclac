@@ -133,8 +133,8 @@ void tclacClimate::readData() {
 	//current_temperature = float((( (dataRX[17] << 8) | dataRX[18] ) / 374 - 32)/1.8);
 	//target_temperature = (dataRX[FAN_SPEED_POS] & SET_TEMP_MASK) + 16;
 	//current_temperature = float((dataRX[29] | (dataRX[30] << 8))*0.001);
-	auto current_temperature = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
-
+	//auto current_temperature2 = float((( (dataRX[45] << 8) | dataRX[46] ) / 374 - 32)/1.8);
+	current_temperature = 256 - dataRX[45];  // 256-233 = 23°C (plausible!)
 	//this->current_temperature = current_temperature;
 	//target_temperature = 20;
 
