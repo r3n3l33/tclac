@@ -15,29 +15,41 @@ namespace tclac{
 
 
 ClimateTraits tclacClimate::traits() {
-	auto traits = climate::ClimateTraits();
+  ClimateTraits traits;
 
-	traits.set_supports_action(false);
-	traits.set_supports_current_temperature(true);
-	traits.set_supports_two_point_target_temperature(false);
+  // Neue Feature-Flags statt deprecated Methoden
+  traits.add_feature_flags(climate::CLIMATE_FEATURE_SUPPORTS_CURRENT_TEMPERATURE);
 
-	traits.set_supported_modes(this->supported_modes_);
-	traits.set_supported_presets(this->supported_presets_);
-	traits.set_supported_fan_modes(this->supported_fan_modes_);
-	traits.set_supported_swing_modes(this->supported_swing_modes_);
-	
-	traits.add_supported_mode(climate::CLIMATE_MODE_OFF);			// Off mode is always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);			// Auto mode is always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_COOL);			// Cool mode is always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_HEAT);			// Heat mode is always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_DRY);			// Dry mode is always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_FAN_ONLY);			// Fan only mode is also available
-	traits.add_supported_fan_mode(climate::CLIMATE_FAN_AUTO);		// Auto fan mode is always available
-	traits.add_supported_swing_mode(climate::CLIMATE_SWING_OFF);	// Swing off mode is always available
-	traits.add_supported_preset(ClimatePreset::CLIMATE_PRESET_NONE);// No preset just in case
+  // Unterstützte Modi (alle relevanten Modi direkt in der Maske)
+  traits.set_supported_modes(
+      ClimateModeMask{
+          climate::CLIMATE_MODE_OFF,
+          climate::CLIMATE_MODE_AUTO,
+          climate::CLIMATE_MODE_COOL,
+          climate::CLIMATE_MODE_HEAT,
+          climate::CLIMATE_MODE_DRY,
+          climate::CLIMATE_MODE_FAN_ONLY
+      }
+  );
 
-	return traits;
+  // Unterstützte Presets
+  traits.set_supported_presets(
+      ClimatePresetMask{climate::CLIMATE_PRESET_NONE}
+  );
+
+  // Unterstützte Lüftermodi
+  traits.set_supported_fan_modes(
+      ClimateFanModeMask{climate::CLIMATE_FAN_AUTO}
+  );
+
+  // Unterstützte Swing-Modi
+  traits.set_supported_swing_modes(
+      ClimateSwingModeMask{climate::CLIMATE_SWING_OFF}
+  );
+
+  return traits;
 }
+
 
 
 void tclacClimate::setup() {
