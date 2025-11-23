@@ -144,9 +144,8 @@ def validate_visual(config):
     return config
 
 # Проверка конфигурации компонента и принятие значений по умолчанию
-CONFIG_SCHEMA = cv.All(
-    climate.CLIMATE_BASE_SCHEMA.extend(
-        {
+CONFIG_SCHEMA = climate.CLIMATE_BASE_SCHEMA.extend(
+    {
             cv.GenerateID(): cv.declare_id(tclacClimate),
             cv.Optional(CONF_BEEPER, default=True): cv.boolean,
             cv.Optional(CONF_DISPLAY, default=True): cv.boolean,
