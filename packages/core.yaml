@@ -2,15 +2,6 @@
 # # # # #                                   NICHT BEARBEITEN!!                                  # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Компонент климата
-external_components:
-  - source:
-      url: https://github.com/Kannix2005/tclac.git
-      type: git
-      ref: master
-    components: [ tclac ]
-    refresh: 30s
-
 # Конфигурация ESPHome
 esphome:
   name: ${device_name}
