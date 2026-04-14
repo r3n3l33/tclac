@@ -250,12 +250,12 @@ select:
     id: vfixing
     entity_category: config
     options:
-      - "Последнее положение"
-      - "До упора вверх"
-      - "В верхней половине"
-      - "По середине"
-      - "В нижней половине"
-      - "До упора вниз"
+      - "Letzte Position"
+      - "Ganz nach oben"
+      - "In der oberen Hälfte"
+      - "In der Mitte"
+      - "In der unteren Hälfte"
+      - "Ganz nach unten"
     optimistic: true
     restore_value: true
     on_value:
@@ -281,12 +281,12 @@ select:
     id: hfixing
     entity_category: config
     options:
-      - "Последнее положение"
-      - "До упора влево"
-      - "В левой половине"
-      - "По середине"
-      - "В правой половине"
-      - "До упора вправо"
+      - "Letzte Position"
+      - "Ganz nach links"
+      - "In der linken Hälfte"
+      - "In der Mitte"
+      - "In der rechten Hälfte"
+      - "Ganz nach rechts"
     optimistic: true
     restore_value: true
     on_value:
