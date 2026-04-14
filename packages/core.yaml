@@ -203,9 +203,9 @@ select:
     id: vswing
     entity_category: config
     options:
-      - "Сверху вниз"
-      - "В верхней половине"
-      - "В нижней половине"
+      - "Von oben nach unten"
+      - "In der oberen Hälfte"
+      - "In der unteren Hälfte"
     optimistic: true
     restore_value: true
     on_value:
@@ -225,10 +225,10 @@ select:
     id: hswing
     entity_category: config
     options:
-      - "Слева направо"
-      - "В левой части"
-      - "В центре"
-      - "В правой части"
+      - "Von links nach rechts"
+      - "Im linken Bereich"
+      - "Im Zentrum"
+      - "Im rechten Bereich"
     optimistic: true
     restore_value: true
     on_value:
